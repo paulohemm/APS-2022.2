@@ -1,4 +1,4 @@
-from limite.tela_sistema import TelaSistema
+from telas.tela_sistema import TelaSistema
 from controle.controlador_pacientes import ControladorPacientes
 
 

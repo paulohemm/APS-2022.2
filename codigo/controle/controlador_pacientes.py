@@ -1,4 +1,4 @@
-from limite.tela_pacientes import TelaPacientes
+from telas.tela_pacientes import TelaPacientes
 from entidade.paciente import Paciente
 from datetime import datetime as datetime
 from math import trunc
@@ -43,8 +43,8 @@ class ControladorPacientes():
                 data_nascimento_obj = datetime.strptime(data_nascimento_str, '%d/%m/%Y').date()
                 idade_dias = datetime.today().date() - data_nascimento_obj
                 idade = int(idade_dias.days // 365.24231481481481481481481481481481)
-                if not 0 < idade < 150:
-                    self.__tela_pacientes.mensagem('Idade inválida, a idade deve ser entre 0 e 150 anos')
+                if not 2 < idade < 130:
+                    self.__tela_pacientes.mensagem('Idade inválida, a idade deve ser entre 3 à 130 anos')
                     break
             except:
                 self.__tela_pacientes.mensagem('Data inválida, a data deve ser inserida neste formato: 11/11/2011')
@@ -142,13 +142,8 @@ class ControladorPacientes():
             matriz.append(linha)
         self.__tela_pacientes.listar_paciente_tabela(matriz, 'Lista de pacientes')
 
-   
-
     def remover_paciente(self):
         paciente = self.get_paciente()
-        # for agendamento in self.__controlador_agendamentos.agendamentos:
-        #     if agendamento.paciente == paciente:
-        #         return None
         if paciente is not None:
             self.__dao.remove(paciente.cpf)
 
