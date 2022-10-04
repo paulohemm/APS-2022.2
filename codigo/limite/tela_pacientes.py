@@ -8,7 +8,7 @@ class TelaPacientes():
         self.__controlador_pacientes = controlador_pacientes
 
     def tela_opcoes(self):
-        sg.theme('Default')
+        sg.theme('DefaultNoMoreNagging')
         layout = [
             [sg.Text('Selecione a opção desejada', size=(30, 1))],
             [sg.Button('Cadastrar paciente', size=(30, 2), key='1')],
@@ -29,7 +29,7 @@ class TelaPacientes():
         window.close()
 
     def pegar_dados_cadastrar(self):
-        sg.theme('Default')
+        sg.theme('DefaultNoMoreNagging')
         layout = [
             [sg.Text('Dados do Paciente:')],
             [sg.Text('Nome: ',size=(15, 1)), sg.InputText()],
@@ -47,12 +47,12 @@ class TelaPacientes():
         return {"nome": values[0], "cpf": values[1], "data_nascimento": values[2]}
 
     def mensagem(self, mensagem=0):
-        sg.theme('Default')
+        sg.theme('DefaultNoMoreNagging')
         sg.popup(f'{mensagem}', no_titlebar=True)
 
     def selecionar_paciente_tabela(self, dados_paciente, titulo):
         titulos = [dados_paciente[0][0], dados_paciente[0][1], dados_paciente[0][2]]
-        sg.theme('Default')
+        sg.theme('DefaultNoMoreNagging')
         layout = [[sg.Table(values=dados_paciente[1:][:], headings=titulos, max_col_width=50,
                              def_col_width=200,
                              auto_size_columns=True,
@@ -80,7 +80,7 @@ class TelaPacientes():
 
     def listar_paciente_tabela(self, dados_paciente, titulo):
         titulos = [dados_paciente[0][0], dados_paciente[0][1], dados_paciente[0][2]]
-        sg.theme('Default')
+        sg.theme('DefaultNoMoreNagging')
         layout = [[sg.Table(values=dados_paciente[1:][:], headings=titulos, max_col_width=50,
                              def_col_width=200,
                              auto_size_columns=True,
@@ -104,23 +104,23 @@ class TelaPacientes():
         return None
 
     def cpf_ja_cadastrado(self, cpf):
-        sg.theme('Default')
+        sg.theme('DefaultNoMoreNagging')
         sg.popup(f'O cpf {cpf} já foi cadastrado.', no_titlebar=True)
 
     def cpf_nao_cadastrado(self, cpf):
-        sg.theme('Default')
+        sg.theme('DefaultNoMoreNagging')
         sg.popup(f'O cpf {cpf} ainda não foi cadastrado.', no_titlebar=True)
 
     def nenhum_paciente(self):
-        sg.theme('Default')
+        sg.theme('DefaultNoMoreNagging')
         sg.popup('Ainda não há pacientes cadastrados.', no_titlebar=True)
 
     def nenhum_agendamento(self):
-        sg.theme('Default')
+        sg.theme('DefaultNoMoreNagging')
         sg.popup('Ainda não há atendimentos agendados para nenhum paciente', no_titlebar=True)
 
     def sucesso(self, nome, cpf=0, data=datetime):
-        sg.theme('Default')
+        sg.theme('DefaultNoMoreNagging')
         if cpf == 0:
             sg.popup(f'Paciente {nome}, nascido em {data} editado!', no_titlebar=True)
         else:

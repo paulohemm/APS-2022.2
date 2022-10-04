@@ -5,7 +5,7 @@ class TelaSistema:
         self.__controlador_sistema = controlador_sistema
 
     def tela_opcoes(self):
-        sg.theme('Default')
+        sg.theme('DefaultNoMoreNagging')
         layout = [
             [sg.Text('Selecione a opção desejada', size=(30, 1))],
             [sg.Button('Pacientes', size=(30, 2), key='1')],
