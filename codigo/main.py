@@ -1,6 +1,5 @@
-from src.control.main_controller import MainController
+from controle.controlador_sistema import ControladorSistema
 
 
-main = MainController()
-
-main.run()
+if __name__ == "__main__":
+    ControladorSistema().inicializa_sistema()
