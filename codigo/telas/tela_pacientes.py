@@ -15,7 +15,7 @@ class TelaPacientes():
             [sg.Button('Editar paciente', size=(30, 2), key='2')],
             [sg.Button('Listar pacientes cadastrados', size=(30, 2), key='3')],
             [sg.Button('Remover paciente', size=(30, 2), key='4')],
-            [sg.Button('Retornar', size=(30, 2), key='0')]
+            [sg.Button('Retornar', size=(30, 2), key='5')]
             ]
         window = sg.Window('Pacientes',size=(800, 480), element_justification="center").Layout(layout).Finalize()
         window.Maximize()
@@ -35,7 +35,7 @@ class TelaPacientes():
             [sg.Text('Nome *: ',size=(15, 1)), sg.InputText()],
             [sg.Text('CPF *: ',size=(15, 1)), sg.InputText()],
             [sg.Text('Telefone: ',size=(15, 1)), sg.InputText()],
-            [sg.Text('Data de Nascimento (dd/mm/aaaa) *:', size=(15, 1)), sg.InputText()],
+            [sg.Text('Data de Nascimento (dd/mm/aaaa) *:', size=(25, 1)), sg.InputText()],
             [sg.Button('Ok'), sg.Button('Cancelar')]
         ]
         window = sg.Window('Pacientes', layout, size=(800, 480), element_justification="center").Finalize()
