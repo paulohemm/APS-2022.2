@@ -9,6 +9,7 @@ class TelaSistema:
         layout = [
             [sg.Text('Selecione a opção desejada', size=(30, 1))],
             [sg.Button('Pacientes', size=(30, 2), key='1')],
+            [sg.Button('Vacinas', size=(30, 2), key='2')],
             [sg.Button('Encerrar Sistema', size=(30, 2), key='0')]
         ]
         window = sg.Window(
