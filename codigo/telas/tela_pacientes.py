@@ -32,10 +32,10 @@ class TelaPacientes():
         sg.theme('DefaultNoMoreNagging')
         layout = [
             [sg.Text('Dados do Paciente:')],
-            [sg.Text('Nome *: ',size=(15, 1)), sg.InputText()],
-            [sg.Text('CPF *: ',size=(15, 1)), sg.InputText()],
-            [sg.Text('Telefone: ',size=(15, 1)), sg.InputText()],
-            [sg.Text('Data de Nascimento (dd/mm/aaaa) *:', size=(25, 1)), sg.InputText()],
+            [sg.Text('Nome completo*: ',size=(24, 1)), sg.InputText()],
+            [sg.Text('CPF*: ',size=(24, 1)), sg.InputText()],
+            [sg.Text('Telefone sem DDD: ', size=(24, 1)), sg.InputText()],
+            [sg.Text('Data nascimento(dd/mm/aaaa)*:', size=(24, 1)), sg.InputText()],
             [sg.Button('Ok'), sg.Button('Cancelar')]
         ]
         window = sg.Window('Pacientes', layout, size=(800, 480), element_justification="center").Finalize()
@@ -45,7 +45,6 @@ class TelaPacientes():
             window.close()
             return None
         window.close()
-        print(values[2])
         return {"nome": values[0], "cpf": values[1], "telefone": values[2], "data_nascimento": values[3]}
 
     def mensagem(self, mensagem=0):
