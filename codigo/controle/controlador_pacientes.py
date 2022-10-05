@@ -4,7 +4,6 @@ from datetime import datetime as datetime
 from math import trunc
 from persistencia.pacienteDAO import PacienteDAO
 
-
 class ControladorPacientes():
 
     def __init__(self, controlador_sistema):
@@ -39,6 +38,7 @@ class ControladorPacientes():
             except (ValueError, TypeError):
                 self.__tela_pacientes.mensagem('Houve problemas com o tipo de dado digitado')
             try:
+                telefone = dados_paciente["telefone"]
                 data_nascimento_str = dados_paciente["data_nascimento"]
                 data_nascimento_obj = datetime.strptime(data_nascimento_str, '%d/%m/%Y').date()
                 idade_dias = datetime.today().date() - data_nascimento_obj
@@ -51,8 +51,7 @@ class ControladorPacientes():
                 break
             if len(self.__dao.get_all()) == 0:
                 self.__tela_pacientes.mensagem(f'Paciente {nome} cadastrado')
-
-                paciente = Paciente(nome, cpf, data_nascimento_obj)
+                paciente = Paciente(nome, cpf, telefone, data_nascimento_obj)
                 self.__dao.add(paciente)
                 break
             else:
@@ -63,14 +62,15 @@ class ControladorPacientes():
                     if dados_paciente["cpf"] == paciente.cpf:
                         self.__tela_pacientes.mensagem(f'O cpf {dados_paciente["cpf"]} já foi cadastrado')
                         return None
-                paciente = Paciente(nome, cpf, data_nascimento_obj)
+                paciente = Paciente(nome, cpf, telefone, data_nascimento_obj)
                 self.__dao.add(paciente)
-                self.__tela_pacientes.sucesso(nome, cpf, data_nascimento_obj)
+                self.__tela_pacientes.sucesso(nome, cpf, telefone, data_nascimento_obj)
                 break
 
-    def editar_paciente(self, nome=0, cpf=0, data_nascimento=0):
+    def editar_paciente(self, nome=0, cpf=0, telefone='', data_nascimento=0):
         paciente_editar = self.get_paciente()
-        # rever
+        # rever pq nao ta retornando os valores no input
+        print(paciente_editar, 'paciente_editar')
         if paciente_editar is None:
             return None
         dados_editar = self.__tela_pacientes.pegar_dados_cadastrar()
@@ -92,9 +92,10 @@ class ControladorPacientes():
         except:
             self.__tela_pacientes.mensagem('Data inválida, a data deve ser inserida neste formato: 11/11/2011')
         paciente_editar.nome = nome_ok
+        paciente_editar.telefone = dados_editar["telefone"]
         paciente_editar.data_nascimento = data_nascimento_obj
         self.__dao.add(paciente_editar)
-        self.__tela_pacientes.sucesso(paciente_editar.nome, paciente_editar.cpf, data_nascimento_obj)
+        self.__tela_pacientes.sucesso(paciente_editar.nome, paciente_editar.cpf, paciente_editar.telefone, data_nascimento_obj)
 
     def get_paciente(self):
         if len(self.__dao.get_all()) == 0:
@@ -112,13 +113,13 @@ class ControladorPacientes():
 
     def selecionar_lista_pacientes(self):
         matriz = []
-        linha = ['        Nome        ', '    CPF    ', 'Idade']
+        linha = ['        Nome        ', '    CPF    ', '   Telefone    ','Idade']
         matriz.append(linha)
         if len(self.__dao.get_all()) == 0:
             self.__tela_pacientes.nenhum_paciente()
             return None
         for paciente in self.__dao.get_all():
-            linha = [paciente.nome, paciente.cpf]
+            linha = [paciente.nome, paciente.cpf, paciente.telefone]
             idade_dias = datetime.today().date() - paciente.data_nascimento
             idade = int(idade_dias.days // 365.24231481481481481481481481481481)
             linha.append(idade)
@@ -129,13 +130,14 @@ class ControladorPacientes():
 
     def listar_pacientes(self):
         matriz = []
-        linha = ['        Nome        ', '    CPF    ', 'Idade']
+        linha = ['        Nome        ', '    CPF    ', '   Telefone    ','Idade']
         matriz.append(linha)
         if len(self.__dao.get_all()) == 0:
             self.__tela_pacientes.nenhum_paciente()
             return None
         for paciente in self.__dao.get_all():
-            linha = [paciente.nome, paciente.cpf]
+            print(paciente)
+            linha = [paciente.nome, paciente.cpf, paciente.telefone]
             idade_dias = datetime.today().date() - paciente.data_nascimento
             idade = int(idade_dias.days // 365.24231481481481481481481481481481)
             linha.append(idade)

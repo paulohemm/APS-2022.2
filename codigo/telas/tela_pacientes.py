@@ -32,26 +32,28 @@ class TelaPacientes():
         sg.theme('DefaultNoMoreNagging')
         layout = [
             [sg.Text('Dados do Paciente:')],
-            [sg.Text('Nome: ',size=(15, 1)), sg.InputText()],
-            [sg.Text('CPF: ',size=(15, 1)), sg.InputText()],
-            [sg.Text('Data de Nascimento (dd/mm/aaaa):', size=(15, 1)), sg.InputText()],
+            [sg.Text('Nome *: ',size=(15, 1)), sg.InputText()],
+            [sg.Text('CPF *: ',size=(15, 1)), sg.InputText()],
+            [sg.Text('Telefone: ',size=(15, 1)), sg.InputText()],
+            [sg.Text('Data de Nascimento (dd/mm/aaaa) *:', size=(15, 1)), sg.InputText()],
             [sg.Button('Ok'), sg.Button('Cancelar')]
         ]
-        window = sg.Window('Vacinas', layout, size=(800, 480), element_justification="center").Finalize()
+        window = sg.Window('Pacientes', layout, size=(800, 480), element_justification="center").Finalize()
         window.Maximize()
         event, values = window.Read()
         if event == sg.WIN_CLOSED or event == 'Cancelar':
             window.close()
             return None
         window.close()
-        return {"nome": values[0], "cpf": values[1], "data_nascimento": values[2]}
+        print(values[2])
+        return {"nome": values[0], "cpf": values[1], "telefone": values[2], "data_nascimento": values[3]}
 
     def mensagem(self, mensagem=0):
         sg.theme('DefaultNoMoreNagging')
         sg.popup(f'{mensagem}', no_titlebar=True)
 
     def selecionar_paciente_tabela(self, dados_paciente, titulo):
-        titulos = [dados_paciente[0][0], dados_paciente[0][1], dados_paciente[0][2]]
+        titulos = [dados_paciente[0][0], dados_paciente[0][1], dados_paciente[0][2], dados_paciente[0][3]]
         sg.theme('DefaultNoMoreNagging')
         layout = [[sg.Table(values=dados_paciente[1:][:], headings=titulos, max_col_width=50,
                              def_col_width=200,
@@ -79,7 +81,8 @@ class TelaPacientes():
         return None
 
     def listar_paciente_tabela(self, dados_paciente, titulo):
-        titulos = [dados_paciente[0][0], dados_paciente[0][1], dados_paciente[0][2]]
+        titulos = [dados_paciente[0][0], dados_paciente[0][1], dados_paciente[0][2], dados_paciente[0][3]]
+        print(titulos)
         sg.theme('DefaultNoMoreNagging')
         layout = [[sg.Table(values=dados_paciente[1:][:], headings=titulos, max_col_width=50,
                              def_col_width=200,
@@ -115,13 +118,9 @@ class TelaPacientes():
         sg.theme('DefaultNoMoreNagging')
         sg.popup('Ainda não há pacientes cadastrados.', no_titlebar=True)
 
-    def nenhum_agendamento(self):
-        sg.theme('DefaultNoMoreNagging')
-        sg.popup('Ainda não há atendimentos agendados para nenhum paciente', no_titlebar=True)
-
-    def sucesso(self, nome, cpf=0, data=datetime):
+    def sucesso(self, nome, cpf=0, telefone = str, data=datetime):
         sg.theme('DefaultNoMoreNagging')
         if cpf == 0:
-            sg.popup(f'Paciente {nome}, nascido em {data} editado!', no_titlebar=True)
+            sg.popup(f'Paciente {nome}, nascido em {data}, telefone {telefone} editado!', no_titlebar=True)
         else:
-            sg.popup(f'Paciente {nome}, com cpf {cpf} e nascido em {data} cadastrado!', no_titlebar=True)
+            sg.popup(f'Paciente {nome}, com cpf {cpf}, nascido em {data} telefone {telefone} cadastrado!', no_titlebar=True)
