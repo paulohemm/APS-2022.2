@@ -86,8 +86,8 @@ class ControladorPacientes():
             data_nascimento_obj = datetime.strptime(data_nascimento_str, '%d/%m/%Y').date()
             idade_dias = datetime.today().date() - data_nascimento_obj
             idade = int(idade_dias.days // 365.24231481481481481481481481481481)
-            if not 0 < idade < 150:
-                self.__tela_pacientes.mensagem('Idade inválida, a idade deve ser entre 0 e 150 anos')
+            if not 2 < idade < 130:
+                self.__tela_pacientes.mensagem('Idade inválida, a idade deve ser entre 3 à 130 anos')
                 return None
         except:
             self.__tela_pacientes.mensagem('Data inválida, a data deve ser inserida neste formato: 11/11/2011')
