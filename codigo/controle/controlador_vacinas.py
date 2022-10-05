@@ -29,6 +29,40 @@ class ControladorVacinas():
                 self.__dao.add(vacina)
                 self.__tela_vacinas.vacina_cadastrada()
 
+    def get_vacina(self):
+        if len(self.__dao.get_all()) == 0:
+            self.__tela_vacinas.lista_vazia()
+            return None
+        else:
+            lista_de_vacinas = self.__dao.get_all()
+            fabricante = self.__tela_vacinas.selecionar_vacina(lista_de_vacinas)
+            if fabricante is None:
+                return None
+            if self.__dao.get(fabricante):
+                return self.__dao.get(fabricante)
+            else:
+                self.__tela_vacinas.vacina_nao_cadastrada()
+                return None
+
+    def editar_vacina(self):
+        vacina = self.get_vacina()
+        if vacina is not None:
+            quantidade = self.__tela_vacinas.pegar_quantidade()
+            vacina.quantidade = quantidade
+            self.__dao.add(vacina)
+
+    def remover_vacina(self):
+        vacina = self.get_vacina()
+        if vacina is not None:
+            self.__dao.remove(vacina.fabricante)
+
+    def listar_doses_disponiveis(self):
+        if len(self.__dao.get_all()) == 0:
+            self.__tela_vacinas.lista_vazia()
+        else:
+            dados_vacinas = self.__dao.get_all()
+            self.__tela_vacinas.mostrar_doses_disponiveis(dados_vacinas)
+
 
     def salvar_vacina(self, vacina):
         self.__dao.add(vacina)
@@ -40,6 +74,9 @@ class ControladorVacinas():
         self.__mantem_tela_aberta = True
         lista_opcoes = {
             1: self.cadastrar_vacina,
+            2: self.editar_vacina,
+            3: self.remover_vacina,
+            4: self.listar_doses_disponiveis,
             0: self.retorna_tela_principal
         }
 
