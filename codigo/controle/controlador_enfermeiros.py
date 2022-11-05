@@ -36,6 +36,13 @@ class ControladorEnfermeiros():
             except (ValueError, TypeError):
                 self.__tela_enfermeiros.mensagem('Houve problemas com o tipo de dado digitado')
             try:
+                matricula_coren = dados_enfermeiro["matricula_coren"].replace(' ', '')
+                if (matricula_coren is None or len(matricula_coren) == 0):
+                    self.__tela_enfermeiros.mensagem(f'A matrícula COREN é obrigatória')
+                    break
+            except (ValueError, TypeError):
+                self.__tela_enfermeiros.mensagem('Houve problemas com o tipo de dado digitado')
+            try:
                 telefone = dados_enfermeiro["telefone"]
                 matricula_coren = dados_enfermeiro["matricula_coren"]
                 data_nascimento_str = dados_enfermeiro["data_nascimento"]
@@ -43,7 +50,7 @@ class ControladorEnfermeiros():
                 idade_dias = datetime.today().date() - data_nascimento_obj
                 idade = int(idade_dias.days // 365.24231481481481481481481481481481)
                 if not 16 <= idade <= 130:
-                    self.__tela_enfermeiros.mensagem('Idade inválida, É vedado aos COREN registrar menores de 16 anos')
+                    self.__tela_enfermeiros.mensagem('Não é possivel registar um profissinal menor de 16 anos ou com mais de 130 anos')
                     break                
             except:
                 self.__tela_enfermeiros.mensagem('Data inválida, a data deve ser inserida neste formato: 11/11/2011')
@@ -86,7 +93,7 @@ class ControladorEnfermeiros():
             idade_dias = datetime.today().date() - data_nascimento_obj
             idade = int(idade_dias.days // 365.24231481481481481481481481481481)
             if not 16 <= idade <= 130:
-                self.__tela_enfermeiros.mensagem('Idade inválida, É vedado aos COREN registrar menores de 16 anos')
+                self.__tela_enfermeiros.mensagem('Não é possivel registar um profissinal menor de 16 anos ou com mais de 130 anos')
                 return None
         except:
             self.__tela_enfermeiros.mensagem('Data inválida, a data deve ser inserida neste formato: 11/11/2011')

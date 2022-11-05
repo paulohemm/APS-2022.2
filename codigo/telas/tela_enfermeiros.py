@@ -13,7 +13,7 @@ class TelaEnfermeiros():
             [sg.Text('Selecione a opção desejada', size=(30, 1))],
             [sg.Button('Cadastrar enfermeiro', size=(30, 2), key='1')],
             [sg.Button('Editar enfermeiro', size=(30, 2), key='2')],
-            [sg.Button('Listar enfermeiro cadastrados', size=(30, 2), key='3')],
+            [sg.Button('Listar enfermeiros cadastrados', size=(30, 2), key='3')],
             [sg.Button('Remover enfermeiro', size=(30, 2), key='4')],
             [sg.Button('Retornar', size=(30, 2), key='5')]
             ]
@@ -34,9 +34,9 @@ class TelaEnfermeiros():
             [sg.Text('Dados do enfermeiro:')],
             [sg.Text('Nome completo*: ',size=(24, 1)), sg.InputText()],
             [sg.Text('CPF*: ',size=(24, 1)), sg.InputText()],
-            [sg.Text('Telefone sem DDD: ', size=(24, 1)), sg.InputText()],
+            [sg.Text('Telefone: ', size=(24, 1)), sg.InputText()],
             [sg.Text('Data nascimento(dd/mm/aaaa)*:', size=(24, 1)), sg.InputText()],
-            [sg.Text('Matricula COREN*:', size=(24, 1)), sg.InputText()],
+            [sg.Text('Matrícula COREN*:', size=(24, 1)), sg.InputText()],
             [sg.Button('Ok'), sg.Button('Cancelar')]
         ]
         window = sg.Window('Enfermeiro', layout, size=(800, 480), element_justification="center").Finalize()
