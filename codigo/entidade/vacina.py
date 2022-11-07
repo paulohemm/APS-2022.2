@@ -1,7 +1,6 @@
-from entidade.lote import Lote
 
 class Vacina:
-    def __init__(self, fabricante: str, lote: Lote ,numero_de_doses: int=1, periodo_dose_seguinte: int=0):
+    def __init__(self, fabricante: str, numero_de_doses: int=1, periodo_dose_seguinte: int=0):
         if isinstance(fabricante, str):
             self.__fabricante = fabricante
         # if isinstance(quantidade, int):
@@ -45,7 +44,7 @@ class Vacina:
     def periodo_dose_seguinte(self) -> int:
         return self.__periodo_dose_seguinte
 
-    @numero_de_doses.setter
+    @periodo_dose_seguinte.setter
     def periodo_dose_seguinte(self, periodo_dose_seguinte):
         if isinstance(periodo_dose_seguinte, int):
             self.__periodo_dose_seguinte = periodo_dose_seguinte

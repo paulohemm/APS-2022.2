@@ -1,5 +1,7 @@
 from telas.tela_lote import TelaLote
+from datetime import datetime as datetime
 from entidade.lote import Lote
+from controle.controlador_vacinas import ControladorVacinas
 from persistencia.loteDAO import LoteDAO
 
 
@@ -9,63 +11,77 @@ class ControladorLote():
         self.__dao = LoteDAO()
         self.__tela_lote = TelaLote(self)
         self.__controlador_sistema = controlador_sistema
+        self.__controlador_vacinas = self.__controlador_sistema.controlador_vacinas
         self.__controlador_agendamentos = None
         self.__mantem_tela_aberta = True
 
     def cadastrar_lote(self):
-        dados_lote = self.__tela_lote.pegar_dados_cadastrar()
-        if dados_lote is None:
-            return None
-        if not self.__dao.get_all():
-            lote = Lote(dados_lote["fabricante"], dados_lote["numero_de_doses"], dados_lote["periodo_dose_seguinte"])
-            self.__dao.add(lote)
-            self.__tela_lote.lote_cadastrado()
-        else:
-            if self.__dao.get(dados_lote["id_lote"]):
-                self.__tela_lote.lote_ja_cadastrado()
+        while True:
+            dados_lote = self.__tela_lote.pegar_dados_cadastrar()
+            try:
+                data_recebimento_str = dados_lote["data_recebimento"]
+                data_recebimento_obj = datetime.strptime(data_recebimento_str, '%d/%m/%Y').date()
+                data_vencimento_str = dados_lote["data_vencimento"]
+                data_vencimento_obj = datetime.strptime(data_vencimento_str, '%d/%m/%Y').date()
+            except:
+                self.__tela_lote.mensagem('Data inválida, a data deve ser inserida neste formato: 11/11/2011')
+                break
+            if dados_lote is None:
                 return None
-            else:
-                lote = Lote(dados_lote["fabricante"], dados_lote["numero_de_doses"],dados_lote["periodo_dose_seguinte"])
+            if not self.__dao.get_all():
+                lote = Lote(dados_lote["fabricante"], dados_lote["id_lote"], data_recebimento_obj, data_vencimento_obj,
+                            dados_lote["quantidade"])
                 self.__dao.add(lote)
                 self.__tela_lote.lote_cadastrado()
+                break
+            else:
+                if self.__dao.get(dados_lote["id_lote"]):
+                    self.__tela_lote.lote_ja_cadastrado()
+                    return None
+                else:
+                    lote = Lote(dados_lote["fabricante"], dados_lote["id_lote"], data_recebimento_obj, data_vencimento_obj, dados_lote["quantidade"])
+                    self.__dao.add(lote)
+                    self.__tela_lote.lote_cadastrado()
+                    break
+
 
     def get_lote(self):
         if len(self.__dao.get_all()) == 0:
             self.__tela_lote.lista_vazia()
             return None
         else:
-            lista_de_vacinas = self.__dao.get_all()
-            fabricante = self.__tela_lote.selecionar_vacina(lista_de_vacinas)
-            if fabricante is None:
+            lista_de_lotes = self.__dao.get_all()
+            id_lote = self.__tela_lote.selecionar_lote(lista_de_lotes)
+            if id_lote is None:
                 return None
-            if self.__dao.get(fabricante):
-                return self.__dao.get(fabricante)
+            if self.__dao.get(id_lote):
+                return self.__dao.get(id_lote)
             else:
-                self.__tela_lote.vacina_nao_cadastrada()
+                self.__tela_lote.lote_nao_cadastrado()
                 return None
 
     def editar_lote(self):
-        vacina = self.get_lote()
-        if vacina is not None:
+        lote = self.get_lote()
+        if lote is not None:
             quantidade = self.__tela_lote.pegar_quantidade()
-            vacina.quantidade = quantidade
-            self.__dao.add(vacina)
+            lote.quantidade = quantidade
+            self.__dao.add(lote)
 
     def remover_lote(self):
-        vacina = self.__tela_lote()
-        if vacina is not None:
-            self.__dao.remove(vacina.fabricante)
+        lote = self.get_lote()
+        if lote is not None:
+            self.__dao.remove(lote.id_lote)
 
     def listar_doses_disponiveis(self):
         if len(self.__dao.get_all()) == 0:
             self.__tela_lote.lista_vazia()
         else:
-            dados_vacinas = self.__dao.get_all()
-            self.__tela_lote.mostrar_doses_disponiveis(dados_vacinas)
+            dados_lote = self.__dao.get_all()
+            self.__tela_lote.mostrar_doses_disponiveis(dados_lote)
 
 
-    def salvar_lote(self, vacina):
-        self.__dao.add(vacina)
+    def salvar_lote(self, lote):
+        self.__dao.add(lote)
 
     def retorna_tela_principal(self):
         self.__mantem_tela_aberta = False

@@ -25,7 +25,7 @@ class ControladorVacinas():
                 self.__tela_vacinas.vacina_ja_cadastrada()
                 return None
             else:
-                vacina = Vacina(dados_vacina["fabricante"], dados_vacina["numero_de_doses"],dados_vacina["periodo_dose_seguinte"])
+                vacina = Vacina(dados_vacina["fabricante"], dados_vacina["numero_de_doses"], dados_vacina["periodo_dose_seguinte"])
                 self.__dao.add(vacina)
                 self.__tela_vacinas.vacina_cadastrada()
 
@@ -47,9 +47,13 @@ class ControladorVacinas():
     def editar_vacina(self):
         vacina = self.get_vacina()
         if vacina is not None:
-            quantidade = self.__tela_vacinas.pegar_quantidade()
-            vacina.quantidade = quantidade
-            self.__dao.add(vacina)
+            dados_edicao = self.__tela_vacinas.pegar_fabricante()
+            if not dados_edicao:
+                return None
+            else:
+                vacina.numero_de_doses = dados_edicao["numero_de_doses"]
+                vacina.periodo_dose_seguinte = dados_edicao["periodo_dose_seguinte"]
+                self.__dao.add(vacina)
 
     def remover_vacina(self):
         vacina = self.get_vacina()
@@ -61,7 +65,7 @@ class ControladorVacinas():
             self.__tela_vacinas.lista_vazia()
         else:
             dados_vacinas = self.__dao.get_all()
-            self.__tela_vacinas.mostrar_doses_disponiveis(dados_vacinas)
+            self.__tela_vacinas.mostrar_vacinas_disponiveis(dados_vacinas)
 
 
     def salvar_vacina(self, vacina):

@@ -3,10 +3,10 @@ from datetime import datetime as datetime
 import PySimpleGUI as sg
 
 
-class TelaVacinas():
+class TelaLote():
 
-    def __init__(self, controlador_vacina, controlador_lote):
-        self.__controlador_vacina = controlador_vacina
+    def __init__(self, controlador_lote):
+#self.__controlador_vacina = controlador_vacina
         self.__controlador_lote = controlador_lote
 
     def tela_opcoes(self):
@@ -52,15 +52,15 @@ class TelaVacinas():
             except ValueError:
                 sg.popup('Campos marcados com * devem ser preenchidos obrigatoriamente', 'Tente novamente.')
         window.close()
-        return {'fabricante': values[0].upper(),"id_lote": values[1], "data_recebimento": values[2], "data_vencimento": values[3], "quantidade": quantidade}
+        return {'fabricante': values[0].upper(),'id_lote': values[1], 'data_recebimento': values[2], 'data_vencimento': values[3], 'quantidade': quantidade}
 
-    def selecionar_vacina(self, lista_de_vacinas):
+    def selecionar_lote(self, lista_de_lotes):
         sg.theme('Default')
         dados = []
-        dados.append(['Fabricante', 'Quantidade'])
-        for vacina in lista_de_vacinas:
-            dados.append([vacina.fabricante, vacina.quantidade])
-        headings = ['   Fabricante   ', 'Quantidade']
+        dados.append(['id_lote', 'Fabricante', 'Quantidade'])
+        for lote in lista_de_lotes:
+            dados.append([lote.id_lote, lote.fabricante, lote.quantidade])
+        headings = ['  id Lote   ', '   Fabricante   ', 'Quantidade']
         layout = [
             [sg.Table(values=dados[1:][:], headings=headings, max_col_width=5,
                 def_col_width=200,
@@ -68,7 +68,7 @@ class TelaVacinas():
                 display_row_numbers=True,
                 justification='left',
                 alternating_row_color='lightgrey',
-                key='-VACINA-',
+                key='-LOTE-',
                 row_height=35,
                 tooltip='Lista de vacinas disponíveis')],
                 [sg.Button('Selecionar'), sg.Button('Cancelar')]
@@ -82,9 +82,9 @@ class TelaVacinas():
                     window.close()
                     return None
                 elif event == 'Selecionar':
-                    vacina_selecionada = values['-VACINA-']
+                    lote_selecionado = values['-LOTE-']
                     window.close()
-                    return dados[vacina_selecionada[0]+1][0]
+                    return dados[lote_selecionado[0]+1][0]
             except IndexError:
                 sg.popup('Vacina não selecionada.')
         window.close()
@@ -112,12 +112,12 @@ class TelaVacinas():
             except ValueError:
                 sg.popup('Valor inválido para a quantidade.', 'Digite um valor válido.')
 
-    def mostrar_doses_disponiveis(self, dados_vacina):
+    def mostrar_doses_disponiveis(self, dados_lote):
         sg.theme('Default')
         dados = []
-        for vacina in dados_vacina:
-            dados.append([vacina.fabricante, vacina.quantidade])
-        headings = ['   Fabricante   ', 'Quantidade']
+        for lote in dados_lote:
+            dados.append([lote.fabricante, lote.id_lote, lote.data_vencimento, lote.quantidade])
+        headings = ['  Fabricante  ','  Id Lote  ','data vencimento', 'Quantidade']
         layout = [
             [sg.Table(values=dados, headings=headings, max_col_width=5,
                 auto_size_columns=True,
@@ -139,15 +139,22 @@ class TelaVacinas():
         window.close()
 
 
-    def vacina_ja_cadastrada(self):
+    def lote_ja_cadastrado(self):
         sg.theme('Default')
         sg.popup('A vacina digitada já existe no sistema.')
 
-    def vacina_cadastrada(self):
+    def lote_cadastrado(self):
         sg.theme('Default')
         sg.popup('Vacina cadastrada com sucesso!')
 
     def lista_vazia(self):
         sg.theme('Default')
-        sg.popup('Não existem vacinas cadastradas no sistema.')
+        sg.popup('Não existem lotes cadastrados no sistema.')
 
+    def lote_nao_cadastrado(self):
+        sg.theme('Default')
+        sg.popup('Lote não existe no sistema, você deve cadastrar o lote antes de editá-lo ou removê-lo doses.')
+
+    def mensagem(self, mensagem=0):
+        sg.theme('Default')
+        sg.popup(f'{mensagem}', no_titlebar=True)

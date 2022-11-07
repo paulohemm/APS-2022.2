@@ -13,7 +13,7 @@ class TelaAgendamentos():
             [sg.Button('Cadastrar agendamento', size=(30, 2), key='1')],
             [sg.Button('Editar agendamento', size=(30, 2), key='2')],
             [sg.Button('Remover agendamento', size=(30, 2), key='3')],
-             [sg.Button('Aplicar Vacina', size=(30, 2), key='4')],
+            [sg.Button('Aplicar Vacina', size=(30, 2), key='4')],
             [sg.Button('Listar aplicações agendadas', size=(30, 2), key='5')],
             [sg.Button('Listar aplicações realizadas', size=(30, 2), key='6')],
             [sg.Button('Retornar', size=(30, 2), key='0')]

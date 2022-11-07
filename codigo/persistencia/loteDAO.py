@@ -7,9 +7,9 @@ class LoteDAO(DAO):
         super().__init__('lote.pkl')
 
     def add(self, lote: Lote):
-        if (isinstance(lote.fabricante, str)) and (lote is not None) \
+        if (isinstance(lote.id_lote, str)) and (lote is not None) \
                 and isinstance(lote, Lote):
-            super().add(lote.fabricante, lote)
+            super().add(lote.id_lote, lote)
 
     def get(self, key: str):
         if isinstance(key, str):

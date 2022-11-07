@@ -29,7 +29,7 @@ class TelaVacinas():
             [sg.Text('Cadastrar Vacina:')],
             [sg.Text('Fabricante*:', size=(15, 1)), sg.InputText()],
             [sg.Text('Número de doses*:', size=(15, 1)), sg.InputText()],
-            [sg.Text('Período até a próxima dose*:', size=(15, 1)), sg.InputText()],
+            [sg.Text('Próxima dose em*:', size=(15, 1)), sg.InputText()],
             [sg.Button('Ok'), sg.Button('Cancelar')]
         ]
         window = sg.Window('Vacinas',size=(800, 480),element_justification="center").Layout(layout).Finalize()
@@ -43,19 +43,20 @@ class TelaVacinas():
                 if len(values[0]) == 0:
                     raise ValueError
                 numero_de_doses = int(values[1])
+                periodo_dose_seguinte = int(values[2])
                 break
             except ValueError:
-                sg.popup('Valor inválido para fabricante ou quantidade.', 'Tente novamente.')
+                sg.popup('Valor inválido para algum dos campos.', 'Tente novamente.')
         window.close()
-        return {'fabricante': values[0].upper(), 'numero_de_doses': numero_de_doses}
+        return {'fabricante': values[0].upper(), 'numero_de_doses': numero_de_doses, 'periodo_dose_seguinte': periodo_dose_seguinte}
 
     def selecionar_vacina(self, lista_de_vacinas):
         sg.theme('Default')
         dados = []
-        dados.append(['Fabricante', 'Quantidade'])
+        dados.append(['Fabricante', 'Doses'])
         for vacina in lista_de_vacinas:
-            dados.append([vacina.fabricante, vacina.quantidade])
-        headings = ['   Fabricante   ', 'Quantidade']
+            dados.append([vacina.fabricante, vacina.numero_de_doses])
+        headings = ['   Fabricante   ', 'Doses']
         layout = [
             [sg.Table(values=dados[1:][:], headings=headings, max_col_width=5,
                 def_col_width=200,
@@ -84,11 +85,12 @@ class TelaVacinas():
                 sg.popup('Vacina não selecionada.')
         window.close()
 
-    def pegar_quantidade(self):
+    def pegar_fabricante(self):
         sg.theme('Default')
         layout = [
-            [sg.Text('Selecionar Quantidade:*')],
-            [sg.Text('Quantidade',size=(15, 1)), sg.InputText()],
+            [sg.Text('Selecionar Fabricante:*')],
+            [sg.Text('Numero de doses:',size=(15, 1)), sg.InputText()],
+            [sg.Text('Tempo entre doses:', size=(15, 1)), sg.InputText('dias')],
             [sg.Button('Ok'), sg.Button('Cancelar')]
         ]
         window = sg.Window('Vacinas',size=(800, 480),element_justification="center").Layout(layout).Finalize()
@@ -101,18 +103,21 @@ class TelaVacinas():
                     return None
                 if int(values[0]) < 0:
                     raise ValueError
-                quantidade = int(values[0])
+                numero_de_doses = int(values[0])
+                periodo_dose_seguinte = int(values[1])
+                if numero_de_doses <= 0 or periodo_dose_seguinte < 30:
+                    raise ValueError
                 window.close()
-                return quantidade
+                return {"numero_de_doses": numero_de_doses, "periodo_dose_seguinte": periodo_dose_seguinte}
             except ValueError:
-                sg.popup('Valor inválido para a quantidade.', 'Digite um valor válido.')
+                sg.popup('Valor inválido para o numero de doses ou periodo entre doses.', 'Digite um valor válido.')
 
-    def mostrar_doses_disponiveis(self, dados_vacina):
+    def mostrar_vacinas_disponiveis(self, dados_vacina):
         sg.theme('Default')
         dados = []
         for vacina in dados_vacina:
-            dados.append([vacina.fabricante, vacina.quantidade])
-        headings = ['   Fabricante   ', 'Quantidade']
+            dados.append([vacina.fabricante, vacina.numero_de_doses, vacina.periodo_dose_seguinte])
+        headings = ['   Fabricante   ', 'Doses', 'Período entre doses (dias)']
         layout = [
             [sg.Table(values=dados, headings=headings, max_col_width=5,
                 auto_size_columns=True,
@@ -133,6 +138,9 @@ class TelaVacinas():
                 break
         window.close()
 
+    def vacina_nao_cadastrada(self):
+        sg.theme('Default')
+        sg.popup('A vacina digitada não existe no sistema.')
 
     def vacina_ja_cadastrada(self):
         sg.theme('Default')
@@ -145,4 +153,9 @@ class TelaVacinas():
     def lista_vazia(self):
         sg.theme('Default')
         sg.popup('Não existem vacinas cadastradas no sistema.')
+
+    def nenhuma_vacina_selecionada(self):
+        sg.theme('Default')
+        sg.popup('Não foi selecionada nenhuma vacina.')
+
 
