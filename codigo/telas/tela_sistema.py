@@ -11,6 +11,8 @@ class TelaSistema:
             [sg.Button('Pacientes', size=(30, 2), key='1')],
             [sg.Button('Vacinas', size=(30, 2), key='2')],
             [sg.Button('Enfermeiros', size=(30, 2), key='3')],
+            [sg.Button('Aplicação de vacina', size=(30, 2), key='4')],
+            [sg.Button('Agendamentos', size=(30, 2), key='5')],
             [sg.Button('Encerrar Sistema', size=(30, 2), key='0')]
         ]
         window = sg.Window(
