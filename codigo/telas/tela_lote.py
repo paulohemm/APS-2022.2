@@ -1,19 +1,22 @@
+from datetime import datetime as datetime
+#from controle.controlador_lote import ControladorLote:
 import PySimpleGUI as sg
 
 
 class TelaVacinas():
 
-    def __init__(self, controlador_vacina):
+    def __init__(self, controlador_vacina, controlador_lote):
         self.__controlador_vacina = controlador_vacina
+        self.__controlador_lote = controlador_lote
 
     def tela_opcoes(self):
         sg.theme('Default')
         layout = [
             [sg.Text('Selecione a opção desejada', size=(30, 1))],
-            [sg.Button('Cadastrar vacina', size=(30, 2), key='1')],
-            [sg.Button('Editar vacina', size=(30, 2), key='2')],
-            [sg.Button('Remover vacina', size=(30, 2), key='3')],
-            [sg.Button('Listar doses por fabricante', size=(30, 2), key='4')],
+            [sg.Button('Cadastrar Lote', size=(30, 2), key='1')],
+            [sg.Button('Editar Lote', size=(30, 2), key='2')],
+            [sg.Button('Remover Lote', size=(30, 2), key='3')],
+            [sg.Button('Listar Lotes', size=(30, 2), key='4')],
             [sg.Button('Retornar', size=(30, 2), key='0')]
         ]
         window = sg.Window('Vacinas', size=(800, 480),element_justification="center").Layout(layout).Finalize()
@@ -26,13 +29,15 @@ class TelaVacinas():
     def pegar_dados_cadastrar(self):
         sg.theme('Default')
         layout = [
-            [sg.Text('Cadastrar Vacina:')],
-            [sg.Text('Fabricante*:', size=(15, 1)), sg.InputText()],
-            [sg.Text('Número de doses*:', size=(15, 1)), sg.InputText()],
-            [sg.Text('Período até a próxima dose*:', size=(15, 1)), sg.InputText()],
+            [sg.Text('Cadastrar Lote:')],
+            [sg.Text('Fabricante*:',size=(15, 1)), sg.InputText()],
+            [sg.Text('Lote*:',size=(15, 1)), sg.InputText()],
+            [sg.Text('Data Recebimento*:', size=(15, 1)), sg.InputText()],
+            [sg.Text('Data Vencimento*:', size=(15, 1)), sg.InputText()],
+            [sg.Text('Quantidade*:', size=(15, 1)), sg.InputText()],
             [sg.Button('Ok'), sg.Button('Cancelar')]
         ]
-        window = sg.Window('Vacinas',size=(800, 480),element_justification="center").Layout(layout).Finalize()
+        window = sg.Window('Lote',size=(800, 480),element_justification="center").Layout(layout).Finalize()
         window.Maximize()
         while True:
             try:
@@ -42,12 +47,12 @@ class TelaVacinas():
                     return None
                 if len(values[0]) == 0:
                     raise ValueError
-                numero_de_doses = int(values[1])
+                quantidade = int(values[4])
                 break
             except ValueError:
-                sg.popup('Valor inválido para fabricante ou quantidade.', 'Tente novamente.')
+                sg.popup('Campos marcados com * devem ser preenchidos obrigatoriamente', 'Tente novamente.')
         window.close()
-        return {'fabricante': values[0].upper(), 'numero_de_doses': numero_de_doses}
+        return {'fabricante': values[0].upper(),"id_lote": values[1], "data_recebimento": values[2], "data_vencimento": values[3], "quantidade": quantidade}
 
     def selecionar_vacina(self, lista_de_vacinas):
         sg.theme('Default')

@@ -17,7 +17,7 @@ class ControladorVacinas():
         if dados_vacina is None:
             return None
         if not self.__dao.get_all():
-            vacina = Vacina(dados_vacina["fabricante"], dados_vacina["quantidade"])
+            vacina = Vacina(dados_vacina["fabricante"], dados_vacina["numero_de_doses"], dados_vacina["periodo_dose_seguinte"])
             self.__dao.add(vacina)
             self.__tela_vacinas.vacina_cadastrada()
         else:
@@ -25,7 +25,7 @@ class ControladorVacinas():
                 self.__tela_vacinas.vacina_ja_cadastrada()
                 return None
             else:
-                vacina = Vacina(dados_vacina["fabricante"], dados_vacina["quantidade"])
+                vacina = Vacina(dados_vacina["fabricante"], dados_vacina["numero_de_doses"],dados_vacina["periodo_dose_seguinte"])
                 self.__dao.add(vacina)
                 self.__tela_vacinas.vacina_cadastrada()
 

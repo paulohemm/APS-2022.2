@@ -1,7 +1,8 @@
 from telas.tela_sistema import TelaSistema
 from controle.controlador_pacientes import ControladorPacientes
 from controle.controlador_vacinas import ControladorVacinas
-from controle import ControladorEnfermeiros
+from controle.controlador_aplicacao import ControladorAplicacao
+from controle.controlador_enfermeiros import ControladorEnfermeiros
 
 
 class ControladorSistema:
@@ -10,6 +11,7 @@ class ControladorSistema:
         self.__controlador_vacinas = ControladorVacinas(self)
         self.__controlador_pacientes = ControladorPacientes(self)
         self.__controlador_enfermeiros = ControladorEnfermeiros(self)
+        self.__controlador_aplicacao = ControladorAplicacao(self)
 
     @property
     def controlador_pacientes(self):
@@ -32,6 +34,9 @@ class ControladorSistema:
 
     def opcoes_enfermeiros(self):
         self.__controlador_enfermeiros.abre_tela()
+
+    def opcoes_aplicacao(self):
+        self.__controlador_aplicacao.abre_tela()
 
     def encerra_sistema(self):
         exit(0)
