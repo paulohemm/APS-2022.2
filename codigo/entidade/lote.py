@@ -3,9 +3,9 @@ from datetime import date as Date
 
 
 class Lote:
-    def __init__(self, fabricante: str, id_lote: str, data_recebimento: Date, data_vencimento: Date, quantidade: int = 0):
-        if isinstance(fabricante, str):
-            self.__fabricante = fabricante
+    def __init__(self, vacina: Vacina, id_lote: str, data_recebimento: Date, data_vencimento: Date, quantidade: int = 0):
+        if isinstance(vacina, Vacina):
+            self.__vacina = vacina
         if isinstance(id_lote, str):
             self.__id_lote = id_lote
         if isinstance(data_recebimento, Date):
@@ -16,13 +16,13 @@ class Lote:
             self.__quantidade = quantidade
 
     @property
-    def fabricante(self) -> str:
-        return self.__fabricante
+    def vacina(self) -> Vacina:
+        return self.__vacina
 
-    @fabricante.setter
-    def fabricante(self, fabricante):
-        if isinstance(fabricante, str):
-            self.__fabricante = fabricante
+    @vacina.setter
+    def vacina(self, vacina):
+        if isinstance(vacina, Vacina):
+            self.__vacina = vacina
 
     @property
     def id_lote(self) -> str:

@@ -118,13 +118,13 @@ class ControladorAgendamentos():
             if agendamento_editar.dose == 2:
                 vacina = primeiro_agendamento.vacina
             else:
-                vacina = self.__controlador_vacinas.get_vacina()
-                if vacina is None:
+                lote = self.__controlador_vacinas.get_lote()
+                if lote is None:
                     break
-            if vacina.quantidade < 1:
+            if lote.quantidade < 1:
                 self.__controlador_vacinas.chamar_doses_insuficiente()
                 break
-            vacina.subtrai_quantidade(1)
+            lote.subtrai_quantidade(1)
             agendamento_editar.vacina.adiciona_quantidade(1)
             self.__controlador_vacinas.salvar_vacina(vacina)
             self.__controlador_vacinas.salvar_vacina(agendamento_editar.vacina)

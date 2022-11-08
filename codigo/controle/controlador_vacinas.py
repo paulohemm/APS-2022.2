@@ -44,6 +44,15 @@ class ControladorVacinas():
                 self.__tela_vacinas.vacina_nao_cadastrada()
                 return None
 
+    def lista_de_vacinas(self):
+        if len(self.__dao.get_all()) == 0:
+            self.__tela_vacinas.lista_vazia()
+            return None
+        else:
+            lista_de_vacinas = self.__dao.get_all()
+            return lista_de_vacinas
+
+
     def editar_vacina(self):
         vacina = self.get_vacina()
         if vacina is not None:

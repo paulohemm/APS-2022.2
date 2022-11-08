@@ -17,6 +17,8 @@ class TelaLote():
             [sg.Button('Editar Lote', size=(30, 2), key='2')],
             [sg.Button('Remover Lote', size=(30, 2), key='3')],
             [sg.Button('Listar Lotes', size=(30, 2), key='4')],
+            [sg.Button('Adicionar doses', size=(30, 2), key='5')],
+            [sg.Button('Subtrair doses', size=(30, 2), key='6')],
             [sg.Button('Retornar', size=(30, 2), key='0')]
         ]
         window = sg.Window('Vacinas', size=(800, 480),element_justification="center").Layout(layout).Finalize()
@@ -60,7 +62,7 @@ class TelaLote():
         dados = []
         dados.append(['id_lote', 'Fabricante', 'Quantidade'])
         for lote in lista_de_lotes:
-            dados.append([lote.id_lote, lote.fabricante, lote.quantidade])
+            dados.append([lote.id_lote, lote.vacina.fabricante, lote.quantidade])
         headings = ['  id Lote   ', '   Fabricante   ', 'Quantidade']
         layout = [
             [sg.Table(values=dados[1:][:], headings=headings, max_col_width=5,
@@ -117,8 +119,8 @@ class TelaLote():
         sg.theme('Default')
         dados = []
         for lote in dados_lote:
-            print(lote.fabricante)
-            dados.append([lote.fabricante, lote.id_lote, lote.data_vencimento, lote.quantidade])
+            print(lote.vacina.fabricante)
+            dados.append([lote.vacina.fabricante, lote.id_lote, lote.data_vencimento, lote.quantidade])
         headings = ['  Fabricante  ','  Id Lote  ','data vencimento', 'Quantidade']
         layout = [
             [sg.Table(values=dados, headings=headings, max_col_width=5,
@@ -155,8 +157,12 @@ class TelaLote():
 
     def lote_nao_cadastrado(self):
         sg.theme('Default')
-        sg.popup('Lote não existe no sistema, você deve cadastrar o lote antes de editá-lo ou removê-lo doses.')
+        sg.popup('Lote não existe no sistema, você deve cadastrar o lote antes de editá-lo ou removê-lo.')
 
     def mensagem(self, mensagem=0):
         sg.theme('Default')
         sg.popup(f'{mensagem}', no_titlebar=True)
+
+    def quantidade_insuficiente(self, quantidade):
+        sg.theme('Default')
+        sg.popup('Quantidade disponível insuficiente. Seu estoque é de {} doses.'.format(quantidade))

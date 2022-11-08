@@ -1,7 +1,6 @@
 from telas.tela_lote import TelaLote
 from datetime import datetime as datetime
 from entidade.lote import Lote
-from controle.controlador_vacinas import ControladorVacinas
 from persistencia.loteDAO import LoteDAO
 
 
@@ -28,9 +27,21 @@ class ControladorLote():
                 break
             if dados_lote is None:
                 return None
+            lista_de_vacinas = self.__controlador_vacinas.lista_de_vacinas()
+            for vacina in lista_de_vacinas:
+                if vacina is None:
+                    self.__tela_lote.lote_nao_cadastrado()
+                    return None
+                else:
+                    if vacina.fabricante == dados_lote["fabricante"]:
+                        salvar_vacina = vacina
+                        break
+                    else:
+                        self.__tela_lote.lote_nao_cadastrado()
+                        return None
             if not self.__dao.get_all():
                 print(dados_lote)
-                lote = Lote(dados_lote["fabricante"], dados_lote["id_lote"], data_recebimento_obj, data_vencimento_obj,
+                lote = Lote(salvar_vacina, dados_lote["id_lote"], data_recebimento_obj, data_vencimento_obj,
                             dados_lote["quantidade"])
                 self.__dao.add(lote)
                 self.__tela_lote.lote_cadastrado()
@@ -40,7 +51,7 @@ class ControladorLote():
                     self.__tela_lote.lote_ja_cadastrado()
                     return None
                 else:
-                    lote = Lote(dados_lote["fabricante"], dados_lote["id_lote"], data_recebimento_obj, data_vencimento_obj, dados_lote["quantidade"])
+                    lote = Lote(salvar_vacina, dados_lote["id_lote"], data_recebimento_obj, data_vencimento_obj, dados_lote["quantidade"])
                     self.__dao.add(lote)
                     self.__tela_lote.lote_cadastrado()
                     break
@@ -60,6 +71,24 @@ class ControladorLote():
             else:
                 self.__tela_lote.lote_nao_cadastrado()
                 return None
+
+    def adicionar_dose(self):
+        lote = self.get_lote()
+        if lote is not None:
+            quantidade = self.__tela_lote.pegar_quantidade()
+            if quantidade is not None:
+                lote.quantidade += quantidade
+                self.__dao.add(lote)
+
+    def subtrair_dose(self):
+        lote = self.get_lote()
+        if lote is not None:
+            quantidade = self.__tela_lote.pegar_quantidade()
+            if quantidade > lote.quantidade:
+                self.__tela_lote.quantidade_insuficiente(lote.quantidade)
+            else:
+                lote.quantidade -= quantidade
+                self.__dao.add(lote)
 
     def editar_lote(self):
         lote = self.get_lote()
@@ -95,6 +124,8 @@ class ControladorLote():
             2: self.editar_lote,
             3: self.remover_lote,
             4: self.listar_doses_disponiveis,
+            5: self.adicionar_dose,
+            6: self.subtrair_dose,
             0: self.retorna_tela_principal
         }
 
