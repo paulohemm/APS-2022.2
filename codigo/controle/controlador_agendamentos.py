@@ -97,10 +97,12 @@ class ControladorAgendamentos():
             return None
         else:
             lista_de_agendamentos = self.__dao.get_all()
+            nova_lista_agendamentos = []
             for agendamento in lista_de_agendamentos:
-                agendamento.data == datetime.today().date()
-            codigo = self.__tela_agendamentos.selecionar_agendamento(lista_de_agendamentos)
-            
+                if agendamento.data == datetime.today().date():
+                    nova_lista_agendamentos.append(agendamento)
+
+            codigo = self.__tela_agendamentos.selecionar_agendamento(nova_lista_agendamentos)
             if codigo is None:
                 return None
             if self.__dao.get(codigo):
@@ -156,7 +158,7 @@ class ControladorAgendamentos():
             break
 
     def aplicar_vacina(self):
-        agendamento = self.get_agendamento()
+        agendamento = self.get_agendamento_today()
         if agendamento is None:
             return None
         agendamento.aplicada = True
