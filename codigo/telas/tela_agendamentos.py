@@ -13,8 +13,8 @@ class TelaAgendamentos():
             [sg.Button('Cadastrar agendamento', size=(30, 2), key='1')],
             [sg.Button('Editar agendamento', size=(30, 2), key='2')],
             [sg.Button('Remover agendamento', size=(30, 2), key='3')],
-            [sg.Button('Aplicar Vacina', size=(30, 2), key='4')],
-            [sg.Button('Listar aplicações agendadas', size=(30, 2), key='5')],
+            [sg.Button('Listar aplicações agendadas', size=(30, 2), key='4')],
+            [sg.Button('Aplicar Vacina', size=(30, 2), key='5')],
             [sg.Button('Listar aplicações realizadas', size=(30, 2), key='6')],
             [sg.Button('Retornar', size=(30, 2), key='0')]
         ]
@@ -75,7 +75,7 @@ class TelaAgendamentos():
                 agendamento.enfermeiro.nome,
                 agendamento.paciente.nome,
                 agendamento.dose,
-                agendamento.vacina.fabricante,
+                # agendamento.vacina.fabricante,
                 agendamento.aplicada])
         headings = ['   Codigo   ','   Data   ','Horário','   Enfermeiro   ','   Paciente   ','Dose','  Vacina  ','Aplicada']
         layout = [
@@ -142,7 +142,7 @@ class TelaAgendamentos():
     def mostrar_lista_agendamentos(self, lista_de_agendamentos):
         sg.theme('Default')
         dados = []
-        dados.append(['Codigo','Data','Horário','Enfermeiro','Paciente','Dose','Vacina','Aplicada'])
+        dados.append(['Codigo','Data','Horário','Enfermeiro','Paciente','Dose','Lote','Aplicada'])
         for agendamento in lista_de_agendamentos:
             dados.append([
                 agendamento.codigo,
@@ -151,9 +151,9 @@ class TelaAgendamentos():
                 agendamento.enfermeiro.nome,
                 agendamento.paciente.nome,
                 agendamento.dose,
-                agendamento.vacina.fabricante,
+                # agendamento.lote.fabricante,
                 agendamento.aplicada])
-        headings = ['   Codigo   ','   Data   ','Horário','   Enfermeiro   ','   Paciente   ','Dose','  Vacina  ','Aplicada']
+        headings = ['   Codigo   ','   Data   ','Horário','   Enfermeiro   ','   Paciente   ','Dose','  Lote  ','Aplicada']
         layout = [
             [sg.Table(values=dados[1:][:], headings=headings, max_col_width=5,
                 def_col_width=200,
@@ -181,10 +181,6 @@ class TelaAgendamentos():
     def agendamento_editado(self):
         sg.theme('Default')
         sg.popup("Agendamento editado com sucesso!")
-
-    def vacina_aplicada(self):
-        sg.theme('Default')
-        sg.popup("Vacina foi aplicada.")
     
     def agendamento_removido(self):
         sg.theme('Default')
@@ -209,6 +205,10 @@ class TelaAgendamentos():
     def agendamento_nao_cadastrado(self):
         sg.theme('Default')
         sg.popup('Agendamento não cadastrado.')
+
+    def vacina_aplicada(self):
+        sg.theme('Default')
+        sg.popup("Vacina aplicada com sucesso.")
 
     def agendamento_aberto_nao_cadastrado(self):
         sg.theme('Default')

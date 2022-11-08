@@ -91,6 +91,24 @@ class ControladorAgendamentos():
                 self.__tela_agendamentos.agendamento_nao_cadastrado()
                 return None
 
+    def get_agendamento_today(self):
+        if len(self.__dao.get_all()) == 0:
+            self.__tela_agendamentos.lista_vazia()
+            return None
+        else:
+            lista_de_agendamentos = self.__dao.get_all()
+            for agendamento in lista_de_agendamentos:
+                agendamento.data == datetime.today().date()
+            codigo = self.__tela_agendamentos.selecionar_agendamento(lista_de_agendamentos)
+            
+            if codigo is None:
+                return None
+            if self.__dao.get(codigo):
+                return self.__dao.get(codigo)
+            else:
+                self.__tela_agendamentos.agendamento_nao_cadastrado()
+                return None
+
     def editar_agendamento(self):
         agendamento_editar = self.get_agendamento()
         if agendamento_editar is None:
@@ -144,6 +162,7 @@ class ControladorAgendamentos():
         agendamento.aplicada = True
         self.__dao.add(agendamento)
         self.__tela_agendamentos.vacina_aplicada()
+                
 
     def remover_agendamento(self):
         agendamento = self.get_agendamento()
@@ -195,8 +214,8 @@ class ControladorAgendamentos():
             1: self.cadastrar_agendamento,
             2: self.editar_agendamento,
             3: self.remover_agendamento,
-            4: self.aplicar_vacina,
-            5: self.listar_agendamentos_abertos,
+            4: self.listar_agendamentos_abertos,
+            5: self.aplicar_vacina,
             6: self.listar_aplicacoes_efetivadas,
             0: self.retorna_tela_principal
         }

@@ -1,7 +1,6 @@
 from telas.tela_sistema import TelaSistema
 from controle.controlador_pacientes import ControladorPacientes
 from controle.controlador_vacinas import ControladorVacinas
-from controle.controlador_aplicacao import ControladorAplicacao
 from controle.controlador_enfermeiros import ControladorEnfermeiros
 from controle.controlador_agendamentos import ControladorAgendamentos
 from controle.controlador_lote import ControladorLote
@@ -14,7 +13,6 @@ class ControladorSistema:
         self.__controlador_lote = ControladorLote(self)
         self.__controlador_pacientes = ControladorPacientes(self)
         self.__controlador_enfermeiros = ControladorEnfermeiros(self)
-        self.__controlador_aplicacao = ControladorAplicacao(self)
         self.__controlador_agendamentos = ControladorAgendamentos(self)
         
 
@@ -47,9 +45,6 @@ class ControladorSistema:
     def opcoes_enfermeiros(self):
         self.__controlador_enfermeiros.abre_tela()
 
-    def opcoes_aplicacao(self):
-        self.__controlador_aplicacao.abre_tela()
-
     def opcoes_agendamentos(self):
         self.__controlador_agendamentos.abre_tela()
 
@@ -62,8 +57,7 @@ class ControladorSistema:
             2: self.opcoes_vacinas,
             3: self.opcoes_lote,
             4: self.opcoes_enfermeiros,
-            5: self.opcoes_aplicacao,
-            6: self.opcoes_agendamentos,
+            5: self.opcoes_agendamentos,
             0: self.encerra_sistema
         }
         
