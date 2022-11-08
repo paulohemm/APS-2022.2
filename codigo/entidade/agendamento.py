@@ -1,6 +1,7 @@
 from entidade.vacina import Vacina
 from entidade.enfermeiro import Enfermeiro
 from entidade.paciente import Paciente
+from entidade.lote import Lote
 from datetime import date
 from datetime import time
 
@@ -10,14 +11,14 @@ class Agendamento:
         self,
         enfermeiro: Enfermeiro,
         paciente: Paciente,
-        vacina: Vacina,
+        lote: Lote,
         data: date,
         horario: time,
         dose: int
     ):
         self.__enfermeiro = enfermeiro
         self.__paciente = paciente
-        self.__vacina = vacina
+        self.__lote = lote
         self.__data = data
         self.__horario = horario
         self.__dose = dose
@@ -43,13 +44,13 @@ class Agendamento:
             self.__paciente = paciente
 
     @property
-    def vacina(self) -> Vacina:
-        return self.__vacina
+    def lote(self) -> Lote:
+        return self.__lote
 
-    @vacina.setter
-    def vacina(self, vacina):
-        if isinstance(vacina, Vacina):
-            self.__vacina = vacina
+    @lote.setter
+    def lote(self, lote):
+        if isinstance(lote, Lote):
+            self.__lote = lote
 
     @property
     def data(self) -> date:

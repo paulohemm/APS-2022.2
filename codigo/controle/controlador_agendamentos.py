@@ -13,6 +13,7 @@ class ControladorAgendamentos():
         self.__controlador_enfermeiros = self.__controlador_sistema.controlador_enfermeiros
         self.__controlador_pacientes = self.__controlador_sistema.controlador_pacientes
         self.__controlador_vacinas = self.__controlador_sistema.controlador_vacinas
+        self.__controlador_lote = self.__controlador_sistema.controlador_lote
         self.__mantem_tela_aberta = True
 
     def cadastrar_agendamento(self):
@@ -51,18 +52,18 @@ class ControladorAgendamentos():
             if dados_agendamento["dose"] == 2:
                 vacina = primeiro_agendamento.vacina
             else:
-                vacina = self.__controlador_vacinas.get_vacina()
-                if vacina is None:
+                lote = self.__controlador_lote.get_lote()
+                if lote is None:
                     break
-            if vacina.quantidade < 1:
-                self.__controlador_vacinas.chamar_doses_insuficiente()
-                break
-            vacina.subtrai_quantidade(1)
-            self.__controlador_vacinas.salvar_vacina(vacina)
+#            if vacina.quantidade < 1:
+ #               self.__controlador_vacinas.chamar_doses_insuficiente()
+  #              break
+  #          vacina.subtrai_quantidade(1)
+            self.__controlador_lote.salvar_lote(lote)
             agendamento = Agendamento(
                 enfermeiro,
                 paciente,
-                vacina,
+                lote,
                 dados_agendamento["data"],
                 dados_agendamento["horario"],
                 dados_agendamento["dose"]

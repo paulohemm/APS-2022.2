@@ -29,6 +29,7 @@ class ControladorLote():
             if dados_lote is None:
                 return None
             if not self.__dao.get_all():
+                print(dados_lote)
                 lote = Lote(dados_lote["fabricante"], dados_lote["id_lote"], data_recebimento_obj, data_vencimento_obj,
                             dados_lote["quantidade"])
                 self.__dao.add(lote)
@@ -77,6 +78,7 @@ class ControladorLote():
             self.__tela_lote.lista_vazia()
         else:
             dados_lote = self.__dao.get_all()
+            print(dados_lote)
             self.__tela_lote.mostrar_doses_disponiveis(dados_lote)
 
 

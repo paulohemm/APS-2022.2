@@ -52,6 +52,7 @@ class TelaLote():
             except ValueError:
                 sg.popup('Campos marcados com * devem ser preenchidos obrigatoriamente', 'Tente novamente.')
         window.close()
+        print(values[0],values[1], 'oi')
         return {'fabricante': values[0].upper(),'id_lote': values[1], 'data_recebimento': values[2], 'data_vencimento': values[3], 'quantidade': quantidade}
 
     def selecionar_lote(self, lista_de_lotes):
@@ -116,6 +117,7 @@ class TelaLote():
         sg.theme('Default')
         dados = []
         for lote in dados_lote:
+            print(lote.fabricante)
             dados.append([lote.fabricante, lote.id_lote, lote.data_vencimento, lote.quantidade])
         headings = ['  Fabricante  ','  Id Lote  ','data vencimento', 'Quantidade']
         layout = [

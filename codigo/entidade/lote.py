@@ -3,7 +3,7 @@ from datetime import date as Date
 
 
 class Lote:
-    def __init__(self, id_lote: str, fabricante: str, data_recebimento: Date, data_vencimento: Date, quantidade: int = 0):
+    def __init__(self, fabricante: str, id_lote: str, data_recebimento: Date, data_vencimento: Date, quantidade: int = 0):
         if isinstance(fabricante, str):
             self.__fabricante = fabricante
         if isinstance(id_lote, str):
