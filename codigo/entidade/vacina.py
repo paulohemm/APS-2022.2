@@ -19,18 +19,6 @@ class Vacina:
         if isinstance(fabricante, str):
             self.__fabricante = fabricante
 
-    # @property
-    # def quantidade(self) -> str:
-    #     return self.__quantidade
-    #
-    # @quantidade.setter
-    # def quantidade(self, quantidade):
-    #     if isinstance(quantidade, int):
-    #         self.__quantidade = quantidade
-
-    def adiciona_quantidade(self, quantidade):
-        self.__quantidade += quantidade
-
     @property
     def numero_de_doses(self) -> int:
         return self.__numero_de_doses
