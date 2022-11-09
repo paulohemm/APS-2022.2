@@ -1,21 +1,9 @@
-from entidade.vacina import Vacina
-from entidade.enfermeiro import Enfermeiro
-from entidade.paciente import Paciente
-from entidade.lote import Lote
-from datetime import date
-from datetime import time
+from entidade import Enfermeiro, Vacina, Paciente, Lote
+from datetime import date, time
 
 
 class Agendamento:
-    def __init__(
-        self,
-        enfermeiro: Enfermeiro,
-        paciente: Paciente,
-        lote: Lote,
-        data: date,
-        horario: time,
-        dose: int
-    ):
+    def __init__(self, enfermeiro: Enfermeiro, paciente: Paciente, lote: Lote, data: date, horario: time, dose: int):
         self.__enfermeiro = enfermeiro
         self.__paciente = paciente
         self.__lote = lote
@@ -23,7 +11,7 @@ class Agendamento:
         self.__horario = horario
         self.__dose = dose
         self.__aplicada = False
-        self.__codigo = str(str(self.__dose)+str(self.__paciente.cpf))
+        self.__codigo = str(self.__dose) + str(self.__paciente.cpf)
 
     @property
     def enfermeiro(self) -> Enfermeiro:

@@ -24,18 +24,24 @@ class TelaAgendamentos():
         return opcao
     
     def pegar_dados_cadastrar(self):
+        lista_dia = ('01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31')
+        lista_mes = ('01','02','03','04','05','06','07','08','09','10','11','12')
+        lista_ano = ('2022','2023','2024')
+        lista_hora = ('09','10','11','12','13','14','15')
+        lista_minutos = ('00','10','20','30','40','50')
+        lista_dose = ('1ª dose', '2ª dose')
         sg.theme('Default')
         layout = [
             [sg.Text('Registro de Agendamento')],
             [sg.Text('Data:')],
-            [sg.Text('Dia:', size=(15,1)), sg.InputCombo(('01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31'), size=(15,1))],
-            [sg.Text('Mês:', size=(15,1)), sg.InputCombo(('01','02','03','04','05','06','07','08','09','10','11','12'), size=(15,1))],
-            [sg.Text('Ano:', size=(15,1)), sg.InputCombo(('2020','2021','2022'), size=(15,1))],
+            [sg.Text('Dia:', size=(15,1)), sg.InputCombo(lista_dia, size=(15,1))],
+            [sg.Text('Mês:', size=(15,1)), sg.InputCombo(lista_mes, size=(15,1))],
+            [sg.Text('Ano:', size=(15,1)), sg.InputCombo(lista_ano, size=(15,1))],
             [sg.Text('Horário:')],
-            [sg.Text('Hora:',size=(15, 1)), sg.InputCombo(('08','09','10','11','12','13','14','15','16','17'), size=(15,1))],
-            [sg.Text('Minuto:',size=(15, 1)), sg.InputCombo(('00','10','20','30','40','50'), size=(15,1))],
+            [sg.Text('Hora:',size=(15, 1)), sg.InputCombo(lista_hora, size=(15,1))],
+            [sg.Text('Minuto:',size=(15, 1)), sg.InputCombo(lista_minutos, size=(15,1))],
             [sg.Text('Dose:')],
-            [sg.Text('Selecione:', size=(15,1)), sg.InputCombo(('1ª dose', '2ª dose'), size=(15,1))],
+            [sg.Text('Selecione:', size=(15,1)), sg.InputCombo(lista_dose, size=(15,1))],
             [sg.Button('Ok'), sg.Button('Cancelar')]
         ]
         window = sg.Window('Agendamentos',size=(800, 480),element_justification="center").Layout(layout).Finalize()
@@ -46,11 +52,23 @@ class TelaAgendamentos():
                 if event == sg.WIN_CLOSED or event == 'Cancelar':
                     window.close()
                     return None
+                if values[0] not in lista_dia or values[1] not in lista_mes or values[2] not in lista_ano:
+                    sg.popup('Data inválida.','Verifique a data desejada e tente novamente.')
+                    window.close()
+                    return None
                 data_str = values[0]+'/'+values[1]+'/'+values[2]
                 data = datetime.strptime(data_str, '%d/%m/%Y').date()
+                if values[3] not in lista_hora or values[4] not in lista_minutos:
+                    sg.popup('Horario inválido.','Verifique o horario desejado e tente novamente.')
+                    window.close()
+                    return None
                 horario_str = values[3]+':'+values[4]
                 horario = datetime.strptime(horario_str, '%H:%M').time()
                 datetime.strptime('08:00', '%H:%M').time() <= horario <= datetime.strptime('18:00', '%H:%M').time()
+                if values[5] not in lista_dose:
+                    sg.popup('Lote inválido.','Verifique o lote desejado e tente novamente.')
+                    window.close()
+                    return None
                 break
             except ValueError:
                 sg.popup('Data inválida.','Verifique a data desejada e tente novamente.')
@@ -66,6 +84,7 @@ class TelaAgendamentos():
         dados = []
         dados.append(['Codigo','Data','Horário','Enfermeiro','Paciente','Dose','Vacina','Aplicada'])
         for agendamento in lista_de_agendamentos:
+            print(agendamento)
             dados.append([
                 agendamento.codigo,
                 agendamento.data,
@@ -73,7 +92,7 @@ class TelaAgendamentos():
                 agendamento.enfermeiro.nome,
                 agendamento.paciente.nome,
                 agendamento.dose,
-                # agendamento.vacina.fabricante,
+                agendamento.lote.vacina.fabricante,
                 agendamento.aplicada])
         headings = ['   Codigo   ','   Data   ','Horário','   Enfermeiro   ','   Paciente   ','Dose','  Vacina  ','Aplicada']
         layout = [
@@ -117,7 +136,7 @@ class TelaAgendamentos():
                 agendamento.enfermeiro.nome,
                 agendamento.paciente.nome,
                 agendamento.dose,
-                # agendamento.lote.fabricante,
+                agendamento.lote.vacina.fabricante,
                 agendamento.aplicada])
         headings = ['   Codigo   ','   Data   ','Horário','   Enfermeiro   ','   Paciente   ','Dose','  Lote  ','Aplicada']
         layout = [

@@ -52,10 +52,10 @@ class ControladorAgendamentos():
                 lote = self.__controlador_lote.get_lote()
                 if lote is None:
                     break
-#            if vacina.quantidade < 1:
- #               self.__controlador_vacinas.chamar_doses_insuficiente()
-  #              break
-  #          vacina.subtrai_quantidade(1)
+            # if vacina.quantidade < 1:
+            #     self.__controlador_vacinas.chamar_doses_insuficiente()
+            #     break
+            # vacina.subtrai_quantidade(1)
             self.__controlador_lote.salvar_lote(lote)
             agendamento = Agendamento(
                 enfermeiro,
