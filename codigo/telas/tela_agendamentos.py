@@ -79,39 +79,6 @@ class TelaAgendamentos():
         window.close()
         return {'data': data, 'horario': horario, 'dose': dose}
 
-    def pegar_dados_editar(self):
-        sg.theme('Default')
-        layout = [
-            [sg.Text('Editar Agendamento:')],
-            [sg.Text('Data (dd/mm/aaaa):',size=(15, 1)), sg.InputText()],
-            [sg.Text('Hora:',size=(15, 1)), sg.InputCombo(self.lista_hora, size=(15,1))],
-            [sg.Text('Minuto:',size=(6, 1)), sg.InputCombo(self.lista_minutos, size=(15,1))],
-            [sg.Text('Aplicada', size=(15,1)), sg.InputCombo(('Não', 'Sim'), size=(15,1))],
-            [sg.Button('Ok'), sg.Button('Cancelar')]
-        ]
-        window = sg.Window('Agendamentos',size=(800, 480),element_justification="center").Layout(layout).Finalize()
-        window.Maximize()
-        while True:
-            try:
-                event, values = window.read()
-                if event == sg.WIN_CLOSED or event == 'Cancelar':
-                    window.close()
-                    return None
-                data_str = values[0]
-                data = datetime.strptime(data_str, '%d/%m/%Y').date()
-                horario_str = values[1]+':'+values[2]
-                horario = datetime.strptime(horario_str, '%H:%M').time()
-                datetime.strptime('08:00', '%H:%M').time() <= horario <= datetime.strptime('18:00', '%H:%M').time()
-                break
-            except ValueError:
-                sg.popup('Valores digitados inválidos.', 'Tente novamente.')
-        if values[3] == 'Não':
-            aplicada = False
-        if values[3] == 'Sim':
-            aplicada = True
-        window.close()
-        return {'data': data, 'horario': horario, 'aplicada': aplicada}
-
     def selecionar_agendamento(self, lista_de_agendamentos):
         sg.theme('Default')
         dados = []
@@ -203,9 +170,9 @@ class TelaAgendamentos():
         sg.theme('Default')
         sg.popup('Já existe um agendamento da segunda dose cadastrado para este paciente.')
     
-    def data_recente_primeira_dose(self):
+    def data_recente_primeira_dose(self, dias):
         sg.theme('Default')
-        sg.popup('Não agendado! Segunda dose deve ser agendada para 20 dias após a aplicação da primeira dose.')
+        sg.popup(f'Não agendado! Segunda dose deve ser agendada para {dias} dias após a aplicação da primeira dose.')
     
     def nao_castrado_primeira_dose(self):
         sg.theme('Default')
