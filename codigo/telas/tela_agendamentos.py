@@ -10,9 +10,7 @@ class TelaAgendamentos():
         sg.theme('Default')
         layout = [
             [sg.Text('Selecione a opção desejada', size=(30, 1))],
-            [sg.Button('Cadastrar agendamento', size=(30, 2), key='1')],
-            [sg.Button('Editar agendamento', size=(30, 2), key='2')],
-            [sg.Button('Remover agendamento', size=(30, 2), key='3')],
+            [sg.Button('Registrar agendamento', size=(30, 2), key='1')],
             [sg.Button('Listar aplicações agendadas', size=(30, 2), key='4')],
             [sg.Button('Aplicar Vacina', size=(30, 2), key='5')],
             [sg.Button('Listar aplicações realizadas', size=(30, 2), key='6')],
@@ -28,7 +26,7 @@ class TelaAgendamentos():
     def pegar_dados_cadastrar(self):
         sg.theme('Default')
         layout = [
-            [sg.Text('Cadastro de Agendamento')],
+            [sg.Text('Registro de Agendamento')],
             [sg.Text('Data:')],
             [sg.Text('Dia:', size=(15,1)), sg.InputCombo(('01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31'), size=(15,1))],
             [sg.Text('Mês:', size=(15,1)), sg.InputCombo(('01','02','03','04','05','06','07','08','09','10','11','12'), size=(15,1))],
@@ -106,38 +104,6 @@ class TelaAgendamentos():
                 sg.popup('Agendamento não selecionada.', 'Tente novamente.')
         window.close()
 
-    def pegar_dados_editar(self):
-        sg.theme('Default')
-        layout = [
-            [sg.Text('Editar Agendamento:')],
-            [sg.Text('Data (dd/mm/aaaa):',size=(15, 1)), sg.InputText()],
-            [sg.Text('Hora:',size=(15, 1)), sg.InputCombo(('08','09','10','11','13','14','15','16','17'), size=(15,1)),
-            sg.Text('Minuto:',size=(6, 1)), sg.InputCombo(('00','10','20','30','40','50'), size=(15,1))],
-            [sg.Text('Aplicada', size=(15,1)), sg.InputCombo(('Não', 'Sim'), size=(15,1))],
-            [sg.Button('Ok'), sg.Button('Cancelar')]
-        ]
-        window = sg.Window('Agendamentos',size=(800, 480),element_justification="center").Layout(layout).Finalize()
-        window.Maximize()
-        while True:
-            try:
-                event, values = window.read()
-                if event == sg.WIN_CLOSED or event == 'Cancelar':
-                    window.close()
-                    return None
-                data_str = values[0]
-                data = datetime.strptime(data_str, '%d/%m/%Y').date()
-                horario_str = values[1]+':'+values[2]
-                horario = datetime.strptime(horario_str, '%H:%M').time()
-                datetime.strptime('08:00', '%H:%M').time() <= horario <= datetime.strptime('18:00', '%H:%M').time()
-                break
-            except ValueError:
-                sg.popup('Valores digitados inválidos.', 'Tente novamente.')
-        if values[3] == 'Não':
-            aplicada = False
-        if values[3] == 'Sim':
-            aplicada = True
-        window.close()
-        return {'data': data, 'horario': horario, 'aplicada': aplicada}
 
     def mostrar_lista_agendamentos(self, lista_de_agendamentos):
         sg.theme('Default')
@@ -177,14 +143,6 @@ class TelaAgendamentos():
     def agendamento_cadastrado(self):
         sg.theme('Default')
         sg.popup("Agendamento cadastrado com sucesso!")
-    
-    def agendamento_editado(self):
-        sg.theme('Default')
-        sg.popup("Agendamento editado com sucesso!")
-    
-    def agendamento_removido(self):
-        sg.theme('Default')
-        sg.popup("O agendamento solicitado foi removido.")
 
     def ja_castrado_primeira_dose(self):
         sg.theme('Default')
