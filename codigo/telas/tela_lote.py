@@ -92,11 +92,13 @@ class TelaLote():
                 sg.popup('Vacina não selecionada.')
         window.close()
 
-    def pegar_quantidade(self):
+    def pegar_dados_editar(self):
         sg.theme('Default')
         layout = [
-            [sg.Text('Selecionar Quantidade:*')],
-            [sg.Text('Quantidade',size=(15, 1)), sg.InputText()],
+            [sg.Text('Editar lote (preencha apenas os campos que deseja editar)')],
+            [sg.Text('Data Recebimento*:', size=(15, 1)), sg.InputText()],
+            [sg.Text('Data Vencimento*:', size=(15, 1)), sg.InputText()],
+            [sg.Text('Quantidade:*',size=(15, 1)), sg.InputText()],
             [sg.Button('Ok'), sg.Button('Cancelar')]
         ]
         window = sg.Window('Vacinas',size=(800, 480),element_justification="center").Layout(layout).Finalize()
@@ -107,13 +109,10 @@ class TelaLote():
                 if event == sg.WIN_CLOSED or event == 'Cancelar':
                     window.close()
                     return None
-                if int(values[0]) < 0:
-                    raise ValueError
-                quantidade = int(values[0])
                 window.close()
-                return quantidade
-            except ValueError:
-                sg.popup('Valor inválido para a quantidade.', 'Digite um valor válido.')
+                return {'data_recebimento': values[0], 'data_vencimento': values[1], 'quantidade': values[2]}
+            except:
+                sg.popup('tente novamente')
 
     def mostrar_doses_disponiveis(self, dados_lote):
         sg.theme('Default')
@@ -157,7 +156,7 @@ class TelaLote():
 
     def lote_nao_cadastrado(self):
         sg.theme('Default')
-        sg.popup('Lote não existe no sistema, você deve cadastrar o lote antes de editá-lo ou removê-lo.')
+        sg.popup('Vacina não existe no sistema, você deve cadastrar uma vacina antes de cadastrar um lote.')
 
     def mensagem(self, mensagem=0):
         sg.theme('Default')

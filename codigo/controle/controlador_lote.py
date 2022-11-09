@@ -40,7 +40,6 @@ class ControladorLote():
                         self.__tela_lote.lote_nao_cadastrado()
                         return None
             if not self.__dao.get_all():
-                print(dados_lote)
                 lote = Lote(salvar_vacina, dados_lote["id_lote"], data_recebimento_obj, data_vencimento_obj,
                             dados_lote["quantidade"])
                 self.__dao.add(lote)
@@ -93,8 +92,23 @@ class ControladorLote():
     def editar_lote(self):
         lote = self.get_lote()
         if lote is not None:
-            quantidade = self.__tela_lote.pegar_quantidade()
-            lote.quantidade = quantidade
+            dados_lote = self.__tela_lote.pegar_dados_editar()
+            try:
+                data_recebimento_str = dados_lote["data_recebimento"]
+                lote.data_recebimento = datetime.strptime(data_recebimento_str, '%d/%m/%Y').date()
+            except:
+                self.__tela_lote.mensagem('Data recebimento inválida, o valor seguirá sendo o original')
+            try:
+                data_vencimento_str = dados_lote["data_vencimento"]
+                lote.data_vencimento = datetime.strptime(data_vencimento_str, '%d/%m/%Y').date()
+            except:
+                self.__tela_lote.mensagem('Data validade inválida, o valor seguirá sendo o original')
+            if dados_lote is None:
+                return None
+            try:
+                lote.quantidade = int(dados_lote["quantidade"])
+            except:
+                self.__tela_lote.mensagem('Quantidade inválida, o valor seguirá sendo o original')
             self.__dao.add(lote)
 
     def remover_lote(self):
