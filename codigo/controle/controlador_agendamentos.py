@@ -46,9 +46,6 @@ class ControladorAgendamentos():
             enfermeiro = self.__controlador_enfermeiros.get_enfermeiro()
             if enfermeiro is None:
                 break
-            if enfermeiro.status == "Inativo":
-                self.__controlador_enfermeiros.enfermeiro_inativo()
-                break
             if dados_agendamento["dose"] == 2:
                 vacina = primeiro_agendamento.vacina
             else:
