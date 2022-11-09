@@ -24,47 +24,40 @@ class ControladorAgendamentos():
             paciente = self.__controlador_pacientes.get_paciente()
             if paciente is None:
                 break
+            codigo_primeiro_agendamento = str(1)+str(paciente.cpf)
             if dados_agendamento["dose"] == 1:
-                codigo = str(str(dados_agendamento["dose"])+str(paciente.cpf))
+                codigo = str(dados_agendamento["dose"]) + str(paciente.cpf)
                 if self.__dao.get(codigo):
                     self.__tela_agendamentos.ja_cadastrado_segunda_dose()
                     break
             if dados_agendamento["dose"] == 2:
-                codigo = str(str(dados_agendamento["dose"])+str(paciente.cpf))
+                codigo = str(dados_agendamento["dose"])+str(paciente.cpf)
                 if self.__dao.get(codigo):
                     self.__tela_agendamentos.ja_cadastrado_segunda_dose()
                     break
-                codigo_primeiro_agendamento = str(str(1)+str(paciente.cpf))
                 primeiro_agendamento = self.__dao.get(codigo_primeiro_agendamento)
                 if primeiro_agendamento is None:
                     self.__tela_agendamentos.nao_cadastrado_primeira_dose()
                     break
                 diferenca_dias = dados_agendamento["data"] - primeiro_agendamento.data
-                if diferenca_dias.days <= 20:
-                    self.__tela_agendamentos.data_recente_primeira_dose()
+                if diferenca_dias.days <= primeiro_agendamento.lote.vacina.periodo_dose_seguinte:
+                    self.__tela_agendamentos.data_recente_primeira_dose(primeiro_agendamento.lote.vacina.periodo_dose_seguinte)
                     return None
             enfermeiro = self.__controlador_enfermeiros.get_enfermeiro()
             if enfermeiro is None:
                 break
+            lote = self.__controlador_lote.get_lote()
             if dados_agendamento["dose"] == 2:
-                vacina = primeiro_agendamento.vacina
+                vacina = lote.vacina
             else:
-                lote = self.__controlador_lote.get_lote()
                 if lote is None:
                     break
-            # if vacina.quantidade < 1:
-            #     self.__controlador_vacinas.chamar_doses_insuficiente()
-            #     break
-            # vacina.subtrai_quantidade(1)
+            if lote.quantidade < 1:
+                self.__controlador_vacinas.chamar_doses_insuficiente()
+                break
+            lote.subtrai_quantidade(1)
             self.__controlador_lote.salvar_lote(lote)
-            agendamento = Agendamento(
-                enfermeiro,
-                paciente,
-                lote,
-                dados_agendamento["data"],
-                dados_agendamento["horario"],
-                dados_agendamento["dose"]
-            )
+            agendamento = Agendamento(enfermeiro, paciente, lote, dados_agendamento["data"], dados_agendamento["horario"], dados_agendamento["dose"])
             self.__dao.add(agendamento)
             self.__tela_agendamentos.agendamento_cadastrado()
             break
@@ -121,14 +114,14 @@ class ControladorAgendamentos():
             return None
         while True:
             if agendamento_editar.dose == 2:
-                codigo_primeiro_agendamento = str(str(1)+str(agendamento_editar.paciente.cpf))
+                codigo_primeiro_agendamento = str(1) + str(agendamento_editar.paciente.cpf)
                 primeiro_agendamento = self.__dao.get(codigo_primeiro_agendamento)
                 if primeiro_agendamento is None:
                     self.__tela_agendamentos.nao_cadastrado_primeira_dose()
                     break
                 diferenca_dias = dados_agendamento["data"] - primeiro_agendamento.data
-                if diferenca_dias.days <= 20:
-                    self.__tela_agendamentos.data_recente_primeira_dose()
+                if diferenca_dias.days <= primeiro_agendamento.lote.vacina.periodo_dose_seguinte:
+                    self.__tela_agendamentos.data_recente_primeira_dose(primeiro_agendamento.lote.vacina.periodo_dose_seguinte)
                     return None
             enfermeiro = self.__controlador_enfermeiros.get_enfermeiro()
             if enfermeiro is None:
