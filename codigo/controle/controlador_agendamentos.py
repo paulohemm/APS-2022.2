@@ -208,11 +208,9 @@ class ControladorAgendamentos():
         self.__mantem_tela_aberta = True
         lista_opcoes = {
             1: self.cadastrar_agendamento,
-            2: self.editar_agendamento,
-            3: self.remover_agendamento,
-            4: self.listar_agendamentos_abertos,
-            5: self.aplicar_vacina,
-            6: self.listar_aplicacoes_efetivadas,
+            2: self.listar_agendamentos_abertos,
+            3: self.aplicar_vacina,
+            4: self.listar_aplicacoes_efetivadas,
             0: self.retorna_tela_principal
         }
 

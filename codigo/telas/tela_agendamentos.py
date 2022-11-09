@@ -17,9 +17,9 @@ class TelaAgendamentos():
         layout = [
             [sg.Text('Selecione a opção desejada', size=(30, 1))],
             [sg.Button('Registrar agendamento', size=(30, 2), key='1')],
-            [sg.Button('Listar aplicações agendadas', size=(30, 2), key='4')],
-            [sg.Button('Aplicar Vacina', size=(30, 2), key='5')],
-            [sg.Button('Listar aplicações realizadas', size=(30, 2), key='6')],
+            [sg.Button('Listar aplicações agendadas', size=(30, 2), key='2')],
+            [sg.Button('Aplicar Vacina', size=(30, 2), key='3')],
+            [sg.Button('Listar aplicações realizadas', size=(30, 2), key='4')],
             [sg.Button('Retornar', size=(30, 2), key='0')]
         ]
         window = sg.Window('Agendamentos',size=(800, 480), element_justification="center").Layout(layout).Finalize()
