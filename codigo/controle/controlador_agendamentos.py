@@ -27,17 +27,17 @@ class ControladorAgendamentos():
             if dados_agendamento["dose"] == 1:
                 codigo = str(str(dados_agendamento["dose"])+str(paciente.cpf))
                 if self.__dao.get(codigo):
-                    self.__tela_agendamentos.ja_castrado_primeira_dose()
+                    self.__tela_agendamentos.ja_cadastrado_segunda_dose()
                     break
             if dados_agendamento["dose"] == 2:
                 codigo = str(str(dados_agendamento["dose"])+str(paciente.cpf))
                 if self.__dao.get(codigo):
-                    self.__tela_agendamentos.ja_castrado_primeira_dose()
+                    self.__tela_agendamentos.ja_cadastrado_segunda_dose()
                     break
                 codigo_primeiro_agendamento = str(str(1)+str(paciente.cpf))
                 primeiro_agendamento = self.__dao.get(codigo_primeiro_agendamento)
                 if primeiro_agendamento is None:
-                    self.__tela_agendamentos.nao_castrado_primeira_dose()
+                    self.__tela_agendamentos.nao_cadastrado_primeira_dose()
                     break
                 diferenca_dias = dados_agendamento["data"] - primeiro_agendamento.data
                 if diferenca_dias.days <= 20:
@@ -96,8 +96,12 @@ class ControladorAgendamentos():
             lista_de_agendamentos = self.__dao.get_all()
             nova_lista_agendamentos = []
             for agendamento in lista_de_agendamentos:
-                if agendamento.data == datetime.today().date():
+                if agendamento.data == datetime.today().date() and agendamento.aplicada == False:
                     nova_lista_agendamentos.append(agendamento)
+
+            if len(nova_lista_agendamentos) == 0:
+                self.__tela_agendamentos.lista_vazia_today()
+                return None
 
             codigo = self.__tela_agendamentos.selecionar_agendamento(nova_lista_agendamentos)
             if codigo is None:
@@ -120,7 +124,7 @@ class ControladorAgendamentos():
                 codigo_primeiro_agendamento = str(str(1)+str(agendamento_editar.paciente.cpf))
                 primeiro_agendamento = self.__dao.get(codigo_primeiro_agendamento)
                 if primeiro_agendamento is None:
-                    self.__tela_agendamentos.nao_castrado_primeira_dose()
+                    self.__tela_agendamentos.nao_cadastrado_primeira_dose()
                     break
                 diferenca_dias = dados_agendamento["data"] - primeiro_agendamento.data
                 if diferenca_dias.days <= 20:
