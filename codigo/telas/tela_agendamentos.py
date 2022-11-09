@@ -166,7 +166,7 @@ class TelaAgendamentos():
         sg.theme('Default')
         sg.popup('Já existe um agendamento da primeira dose cadastrado para este paciente.')
     
-    def ja_castrado_segunda_dose(self):
+    def ja_cadastrado_segunda_dose(self):
         sg.theme('Default')
         sg.popup('Já existe um agendamento da segunda dose cadastrado para este paciente.')
     
@@ -174,7 +174,7 @@ class TelaAgendamentos():
         sg.theme('Default')
         sg.popup(f'Não agendado! Segunda dose deve ser agendada para {dias} dias após a aplicação da primeira dose.')
     
-    def nao_castrado_primeira_dose(self):
+    def nao_cadastrado_primeira_dose(self):
         sg.theme('Default')
         sg.popup('Não agendado! Segunda dose só pode ser agendada após o agendamento da primeira dose.')
 
@@ -193,7 +193,11 @@ class TelaAgendamentos():
     def agendamento_efetivado_nao_cadastrado(self):
         sg.theme('Default')
         sg.popup('Nenhum agendamento efetivado foi encontrado.')
+
+    def lista_vazia_today(self):
+        sg.theme('Default')
+        sg.popup('Não existem agendamentos cadastrados para data atual no sistema.')
     
     def lista_vazia(self):
         sg.theme('Default')
-        sg.popup('Não existem agendamentos cadastradas no sistema.')
+        sg.popup('Não existem agendamentos cadastrados no sistema.')
