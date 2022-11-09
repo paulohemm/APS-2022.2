@@ -1,5 +1,5 @@
-from persistencia.dao import DAO
-from entidade.agendamento import Agendamento
+from persistencia import DAO
+from entidade import Agendamento
 
 
 class AgendamentoDAO(DAO):
