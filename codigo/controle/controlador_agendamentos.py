@@ -46,6 +46,13 @@ class ControladorAgendamentos():
             enfermeiro = self.__controlador_enfermeiros.get_enfermeiro()
             if enfermeiro is None:
                 break
+            if len(self.__dao.get_all()) > 0:
+                agendamentos_abertos = []
+                for agendamento in self.__dao.get_all():
+                    if (agendamento.enfermeiro.nome == enfermeiro.nome and dados_agendamento["data"] == agendamento.data and dados_agendamento["horario"] == agendamento.horario):
+                        self.__tela_agendamentos.enfermeiro_ja_possui_um_agendamento()
+                        return None
+            print(agendamentos_abertos)
             lote = self.__controlador_lote.get_lote()
             if dados_agendamento["dose"] == 2:
                 vacina = lote.vacina

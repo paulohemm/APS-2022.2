@@ -201,3 +201,7 @@ class TelaAgendamentos():
     def lista_vazia(self):
         sg.theme('Default')
         sg.popup('Não existem agendamentos cadastrados no sistema.')
+
+    def enfermeiro_ja_possui_um_agendamento(self):
+        sg.theme('Default')
+        sg.popup('Não agendado! O Enfermeiro já possui um agendamento na data e horário selecionado')
