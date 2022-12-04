@@ -20,8 +20,9 @@ class ControladorEnfermeiros():
     def cadastrar_enfermeiro(self):
         while True:
             dados_enfermeiro = self.__tela_enfermeiros.dados_cadastro()
+            if (len(dados_enfermeiro["nome"]) + len(dados_enfermeiro["cpf"]) + len(dados_enfermeiro["data_nascimento"]) + len(dados_enfermeiro["matricula_coren"])) == 0:
+                self.__tela_enfermeiros.mensagem('Nenhum dado obrigatório foi digitado, por favor tente novamente')
             if dados_enfermeiro is None:
-                self.__tela_enfermeiros.mensagem('Nenhum dado foi digitado, por favor tente novamente!')
                 break
             try:
                 nome = dados_enfermeiro["nome"].upper()
@@ -78,9 +79,11 @@ class ControladorEnfermeiros():
         enfermeiro_editar = self.get_enfermeiro()
         print(enfermeiro_editar, 'enfermeiro_editar')
         if enfermeiro_editar is None:
-            self.__tela_enfermeiros.mensagem('Nenhum dado foi digitado, por favor tente novamente!')
             return None
         dados_editar = self.__tela_enfermeiros.dados_cadastro()
+        if (len(dados_editar["nome"]) + len(dados_editar["cpf"]) + len(dados_editar["data_nascimento"]) + len(dados_editar["matricula_coren"])) == 0:
+            self.__tela_enfermeiros.mensagem('Nenhum dado obrigatório foi digitado, por favor tente novamente')
+            return None
         try:
             nome = dados_editar["nome"].upper()
             if nome.replace(' ', '').isalpha():
@@ -99,6 +102,7 @@ class ControladorEnfermeiros():
                 return None
         except:
             self.__tela_enfermeiros.mensagem('Data inválida, a data deve ser inserida neste formato: 11/11/2011')
+            return None
         enfermeiro_editar.nome = nome_corrigido
         enfermeiro_editar.telefone = dados_editar["telefone"]
         enfermeiro_editar.data_nascimento = data_nascimento_obj
