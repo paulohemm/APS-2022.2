@@ -88,8 +88,8 @@ class TelaAgendamentos():
                 agendamento.codigo,
                 agendamento.data,
                 agendamento.horario,
-                agendamento.enfermeiro.nome,
-                agendamento.paciente.nome,
+                agendamento.enfermeiro.nome_completo,
+                agendamento.paciente.nome_completo,
                 agendamento.dose,
                 agendamento.lote.vacina.fabricante,
                 agendamento.aplicada])
@@ -132,8 +132,8 @@ class TelaAgendamentos():
                 agendamento.codigo,
                 agendamento.data,
                 agendamento.horario,
-                agendamento.enfermeiro.nome,
-                agendamento.paciente.nome,
+                agendamento.enfermeiro.nome_completo,
+                agendamento.paciente.nome_completo,
                 agendamento.dose,
                 agendamento.lote.vacina.fabricante,
                 agendamento.aplicada])

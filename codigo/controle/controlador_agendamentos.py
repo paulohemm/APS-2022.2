@@ -48,7 +48,7 @@ class ControladorAgendamentos():
                 break
             if len(self.__dao.get_all()) > 0:
                 for agendamento in self.__dao.get_all():
-                    if (agendamento.enfermeiro.nome == enfermeiro.nome and dados_agendamento["data"] == agendamento.data and dados_agendamento["horario"] == agendamento.horario):
+                    if (agendamento.enfermeiro.nome_completo == enfermeiro.nome_completo and dados_agendamento["data"] == agendamento.data and dados_agendamento["horario"] == agendamento.horario):
                         self.__tela_agendamentos.enfermeiro_ja_possui_um_agendamento()
                         return None
             lote = self.__controlador_lote.get_lote()
