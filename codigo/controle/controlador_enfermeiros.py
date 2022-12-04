@@ -77,7 +77,8 @@ class ControladorEnfermeiros():
 
     def editar_enfermeiro(self, nome=0, cpf=0, telefone='', data_nascimento=0):
         enfermeiro_editar = self.get_enfermeiro()
-        print(enfermeiro_editar, 'enfermeiro_editar')
+        teste = self.__tela_enfermeiros.selecionar_enfermeiro_tabela()
+        print(teste)
         if enfermeiro_editar is None:
             return None
         dados_editar = self.__tela_enfermeiros.dados_cadastro()
@@ -150,7 +151,7 @@ class ControladorEnfermeiros():
             return None
         for enfermeiro in self.__dao.get_all():
             print(enfermeiro)
-            linha = [enfermeiro.nome, enfermeiro.cpf, enfermeiro.telefone, enfermeiro.matricula_coren]
+            linha = [enfermeiro.nome_completo, enfermeiro.cpf, enfermeiro.telefone, enfermeiro.matricula_coren]
             idade_dias = datetime.today().date() - enfermeiro.data_nascimento
             idade = int(idade_dias.days // 365.24231481481481481481481481481481)
             linha.append(idade)
