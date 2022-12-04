@@ -52,13 +52,16 @@ class ControladorAgendamentos():
                         self.__tela_agendamentos.enfermeiro_ja_possui_um_agendamento()
                         return None
             lote = self.__controlador_lote.get_lote()
+            if dados_agendamento["data"] > lote.data_vencimento:
+                self.__tela_agendamentos.lote_fora_de_validade()
+                break
             if dados_agendamento["dose"] == 2:
                 vacina = lote.vacina
             else:
                 if lote is None:
                     break
             if lote.quantidade < 1:
-                self.__controlador_vacinas.chamar_doses_insuficiente()
+                self.__tela_agendamentos.doses_insuficientes()
                 break
             lote.subtrai_quantidade(1)
             self.__controlador_lote.salvar_lote(lote)
@@ -110,51 +113,51 @@ class ControladorAgendamentos():
                 self.__tela_agendamentos.agendamento_nao_cadastrado()
                 return None
 
-    def editar_agendamento(self):
-        agendamento_editar = self.get_agendamento()
-        if agendamento_editar is None:
-            return None
-        dados_agendamento = self.__tela_agendamentos.pegar_dados_editar()
-        if dados_agendamento is None:
-            return None
-        while True:
-            if agendamento_editar.dose == 2:
-                codigo_primeiro_agendamento = str(1) + str(agendamento_editar.paciente.cpf)
-                primeiro_agendamento = self.__dao.get(codigo_primeiro_agendamento)
-                if primeiro_agendamento is None:
-                    self.__tela_agendamentos.nao_cadastrado_primeira_dose()
-                    break
-                diferenca_dias = dados_agendamento["data"] - primeiro_agendamento.data
-                if diferenca_dias.days <= primeiro_agendamento.lote.vacina.periodo_dose_seguinte:
-                    self.__tela_agendamentos.data_recente_primeira_dose(primeiro_agendamento.lote.vacina.periodo_dose_seguinte)
-                    return None
-            enfermeiro = self.__controlador_enfermeiros.get_enfermeiro()
-            if enfermeiro is None:
-                break
-            if enfermeiro.status == "Inativo":
-                self.__controlador_enfermeiros.enfermeiro_inativo()
-                break
-            if agendamento_editar.dose == 2:
-                vacina = primeiro_agendamento.vacina
-            else:
-                lote = self.__controlador_vacinas.get_lote()
-                if lote is None:
-                    break
-            if lote.quantidade < 1:
-                self.__controlador_vacinas.chamar_doses_insuficiente()
-                break
-            lote.subtrai_quantidade(1)
-            agendamento_editar.vacina.adiciona_quantidade(1)
-            self.__controlador_vacinas.salvar_vacina(vacina)
-            self.__controlador_vacinas.salvar_vacina(agendamento_editar.vacina)
-            agendamento_editar.enfermeiro = enfermeiro
-            agendamento_editar.vacina = vacina
-            agendamento_editar.data = dados_agendamento['data']
-            agendamento_editar.horario = dados_agendamento['horario']
-            agendamento_editar.aplicada = dados_agendamento['aplicada']
-            self.__dao.add(agendamento_editar)
-            self.__tela_agendamentos.agendamento_editado()
-            break
+    # def editar_agendamento(self):
+    #     agendamento_editar = self.get_agendamento()
+    #     if agendamento_editar is None:
+    #         return None
+    #     dados_agendamento = self.__tela_agendamentos.pegar_dados_editar()
+    #     if dados_agendamento is None:
+    #         return None
+    #     while True:
+    #         if agendamento_editar.dose == 2:
+    #             codigo_primeiro_agendamento = str(1) + str(agendamento_editar.paciente.cpf)
+    #             primeiro_agendamento = self.__dao.get(codigo_primeiro_agendamento)
+    #             if primeiro_agendamento is None:
+    #                 self.__tela_agendamentos.nao_cadastrado_primeira_dose()
+    #                 break
+    #             diferenca_dias = dados_agendamento["data"] - primeiro_agendamento.data
+    #             if diferenca_dias.days <= primeiro_agendamento.lote.vacina.periodo_dose_seguinte:
+    #                 self.__tela_agendamentos.data_recente_primeira_dose(primeiro_agendamento.lote.vacina.periodo_dose_seguinte)
+    #                 return None
+    #         enfermeiro = self.__controlador_enfermeiros.get_enfermeiro()
+    #         if enfermeiro is None:
+    #             break
+    #         if enfermeiro.status == "Inativo":
+    #             self.__controlador_enfermeiros.enfermeiro_inativo()
+    #             break
+    #         if agendamento_editar.dose == 2:
+    #             vacina = primeiro_agendamento.vacina
+    #         else:
+    #             lote = self.__controlador_vacinas.get_lote()
+    #             if lote is None:
+    #                 break
+    #         if lote.quantidade < 1:
+    #             self.__controlador_vacinas.chamar_doses_insuficiente()
+    #             break
+    #         lote.subtrai_quantidade(1)
+    #         agendamento_editar.vacina.adiciona_quantidade(1)
+    #         self.__controlador_vacinas.salvar_vacina(vacina)
+    #         self.__controlador_vacinas.salvar_vacina(agendamento_editar.vacina)
+    #         agendamento_editar.enfermeiro = enfermeiro
+    #         agendamento_editar.vacina = vacina
+    #         agendamento_editar.data = dados_agendamento['data']
+    #         agendamento_editar.horario = dados_agendamento['horario']
+    #         agendamento_editar.aplicada = dados_agendamento['aplicada']
+    #         self.__dao.add(agendamento_editar)
+    #         self.__tela_agendamentos.agendamento_editado()
+    #         break
 
     def aplicar_vacina(self):
         agendamento = self.get_agendamento_today()

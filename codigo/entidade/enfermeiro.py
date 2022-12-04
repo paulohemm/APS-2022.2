@@ -3,8 +3,8 @@ from entidade import AbstractPessoa
 
 
 class Enfermeiro(AbstractPessoa):
-	def __init__(self, nome: str, cpf: str, telefone: str, data_nascimento: date, matricula_coren: str, status: str = "Ativo"):
-		super().__init__(nome, cpf, telefone, data_nascimento)
+	def __init__(self, nome_completo: str, cpf: str, telefone: str, data_nascimento: date, matricula_coren: str, status: str = "Ativo"):
+		super().__init__(nome_completo, cpf, telefone, data_nascimento)
 		self.__matricula_coren = matricula_coren
 		self.__status = status
 

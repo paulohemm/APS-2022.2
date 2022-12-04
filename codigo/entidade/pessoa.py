@@ -5,9 +5,9 @@ from abc import ABC, abstractmethod
 class AbstractPessoa(ABC):
 
 	@abstractmethod
-	def __init__(self, nome: str, cpf: str, telefone: str, data_nascimento: Date):
-		if isinstance(nome, str):
-			self.__nome = nome
+	def __init__(self, nome_completo: str, cpf: str, telefone: str, data_nascimento: Date):
+		if isinstance(nome_completo, str):
+			self.__nome = nome_completo
 		if isinstance(cpf, str):
 			self.__cpf = cpf
 		if isinstance(telefone, str):
@@ -16,13 +16,13 @@ class AbstractPessoa(ABC):
 			self.__data_nascimento = data_nascimento
 
 	@property
-	def nome(self) -> str:
-		return self.__nome
+	def nome_completo(self) -> str:
+		return self.__nome_completo
 
-	@nome.setter
-	def nome(self, nome):
-		if isinstance(nome, str):
-			self.__nome = nome
+	@nome_completo.setter
+	def nome_completo(self, nome_completo):
+		if isinstance(nome_completo, str):
+			self.__nome_completo = nome_completo
 
 	@property
 	def cpf(self) -> str:

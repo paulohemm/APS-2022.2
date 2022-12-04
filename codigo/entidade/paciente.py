@@ -3,8 +3,8 @@ from entidade.pessoa import AbstractPessoa
 
 
 class Paciente(AbstractPessoa):
-	def __init__(self, nome: str, cpf: str, telefone: str, data_nascimento: Date):
-		super().__init__(nome, cpf, telefone, data_nascimento)
+	def __init__(self, nome_completo: str, cpf: str, telefone: str, data_nascimento: Date):
+		super().__init__(nome_completo, cpf, telefone, data_nascimento)
 		self.__dose_vacina = 0
 
 	@property

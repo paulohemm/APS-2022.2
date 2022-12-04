@@ -205,3 +205,11 @@ class TelaAgendamentos():
     def enfermeiro_ja_possui_um_agendamento(self):
         sg.theme('Default')
         sg.popup('Não agendado! O Enfermeiro já possui um agendamento na data e horário selecionado')
+
+    def lote_fora_de_validade(self):
+        sg.theme('Default')
+        sg.popup('Não é possivel registar o agendamento, a vacina esta fora do prazo de validade')
+    
+    def doses_insuficientes(self):
+        sg.theme('Default')
+        sg.popup('Não é possivel registar o agendamento, não há doses disponíveis')
