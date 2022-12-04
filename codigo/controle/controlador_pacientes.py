@@ -119,7 +119,7 @@ class ControladorPacientes():
             self.__tela_pacientes.nenhum_paciente()
             return None
         for paciente in self.__dao.get_all():
-            linha = [paciente.nome, paciente.cpf, paciente.telefone]
+            linha = [paciente.nome_completo, paciente.cpf, paciente.telefone]
             idade_dias = datetime.today().date() - paciente.data_nascimento
             idade = int(idade_dias.days // 365.24231481481481481481481481481481)
             linha.append(idade)

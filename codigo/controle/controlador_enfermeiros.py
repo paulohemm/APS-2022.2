@@ -21,6 +21,7 @@ class ControladorEnfermeiros():
         while True:
             dados_enfermeiro = self.__tela_enfermeiros.dados_cadastro()
             if dados_enfermeiro is None:
+                self.__tela_enfermeiros.mensagem('Nenhum dado foi digitado, por favor tente novamente!')
                 break
             try:
                 nome = dados_enfermeiro["nome"].upper()
@@ -77,6 +78,7 @@ class ControladorEnfermeiros():
         enfermeiro_editar = self.get_enfermeiro()
         print(enfermeiro_editar, 'enfermeiro_editar')
         if enfermeiro_editar is None:
+            self.__tela_enfermeiros.mensagem('Nenhum dado foi digitado, por favor tente novamente!')
             return None
         dados_editar = self.__tela_enfermeiros.dados_cadastro()
         try:
@@ -126,7 +128,7 @@ class ControladorEnfermeiros():
             self.__tela_enfermeiros.nenhum_enfermeiro()
             return None
         for enfermeiro in self.__dao.get_all():
-            linha = [enfermeiro.nome, enfermeiro.cpf, enfermeiro.telefone, enfermeiro.matricula_coren]
+            linha = [enfermeiro.nome_completo, enfermeiro.cpf, enfermeiro.telefone, enfermeiro.matricula_coren]
             idade_dias = datetime.today().date() - enfermeiro.data_nascimento
             idade = int(idade_dias.days // 365.24231481481481481481481481481481)
             linha.append(idade)

@@ -7,7 +7,7 @@ class AbstractPessoa(ABC):
 	@abstractmethod
 	def __init__(self, nome_completo: str, cpf: str, telefone: str, data_nascimento: Date):
 		if isinstance(nome_completo, str):
-			self.__nome = nome_completo
+			self.__nome_completo = nome_completo
 		if isinstance(cpf, str):
 			self.__cpf = cpf
 		if isinstance(telefone, str):
