@@ -208,8 +208,12 @@ class TelaAgendamentos():
 
     def lote_fora_de_validade(self):
         sg.theme('Default')
-        sg.popup('Não é possivel registar o agendamento, a vacina esta fora do prazo de validade')
+        sg.popup('Não é possivel registar o agendamento, a vacina esta fora do prazo de validade.')
     
     def doses_insuficientes(self):
         sg.theme('Default')
         sg.popup('Não é possivel registar o agendamento, não há doses disponíveis')
+
+    def agendamento_com_data_anterior(self):
+        sg.theme('Default')
+        sg.popup('Não é possível realizar um agendamento em uma data anterior ou horario anterior a data atual.')
