@@ -17,8 +17,6 @@ class TelaLote():
             [sg.Button('Editar Lote', size=(30, 2), key='2')],
             [sg.Button('Remover Lote', size=(30, 2), key='3')],
             [sg.Button('Listar Lotes', size=(30, 2), key='4')],
-            [sg.Button('Adicionar doses', size=(30, 2), key='5')],
-            [sg.Button('Subtrair doses', size=(30, 2), key='6')],
             [sg.Button('Retornar', size=(30, 2), key='0')]
         ]
         window = sg.Window('Vacinas', size=(800, 480),element_justification="center").Layout(layout).Finalize()
@@ -52,7 +50,7 @@ class TelaLote():
                 quantidade = int(values[4])
                 break
             except ValueError:
-                sg.popup('Campos marcados com * devem ser preenchidos obrigatoriamente', 'Tente novamente.')
+                sg.popup('Campos marcados com * devem ser preenchidos obrigatoriamente, a quantidade deve ter valor numérico', 'Tente novamente.')
         window.close()
         print(values[0],values[1], 'oi')
         return {'fabricante': values[0].upper(),'id_lote': values[1], 'data_recebimento': values[2], 'data_vencimento': values[3], 'quantidade': quantidade}
@@ -144,11 +142,11 @@ class TelaLote():
 
     def lote_ja_cadastrado(self):
         sg.theme('Default')
-        sg.popup('A vacina digitada já existe no sistema.')
+        sg.popup('O lote digitado já existe no sistema.')
 
     def lote_cadastrado(self):
         sg.theme('Default')
-        sg.popup('Vacina cadastrada com sucesso!')
+        sg.popup('Lote cadastrado com sucesso!')
 
     def lista_vazia(self):
         sg.theme('Default')

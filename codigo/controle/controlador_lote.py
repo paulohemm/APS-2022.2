@@ -71,23 +71,23 @@ class ControladorLote():
                 self.__tela_lote.lote_nao_cadastrado()
                 return None
 
-    def adicionar_dose(self):
-        lote = self.get_lote()
-        if lote is not None:
-            quantidade = self.__tela_lote.pegar_quantidade()
-            if quantidade is not None:
-                lote.quantidade += quantidade
-                self.__dao.add(lote)
-
-    def subtrair_dose(self):
-        lote = self.get_lote()
-        if lote is not None:
-            quantidade = self.__tela_lote.pegar_quantidade()
-            if quantidade > lote.quantidade:
-                self.__tela_lote.quantidade_insuficiente(lote.quantidade)
-            else:
-                lote.quantidade -= quantidade
-                self.__dao.add(lote)
+    # def adicionar_dose(self):
+    #     lote = self.get_lote()
+    #     if lote is not None:
+    #         quantidade = self.__tela_lote.pegar_quantidade()
+    #         if quantidade is not None:
+    #             lote.quantidade += quantidade
+    #             self.__dao.add(lote)
+    #
+    # def subtrair_dose(self):
+    #     lote = self.get_lote()
+    #     if lote is not None:
+    #         quantidade = self.__tela_lote.pegar_quantidade()
+    #         if quantidade > lote.quantidade:
+    #             self.__tela_lote.quantidade_insuficiente(lote.quantidade)
+    #         else:
+    #             lote.quantidade -= quantidade
+    #             self.__dao.add(lote)
 
     def editar_lote(self):
         lote = self.get_lote()
@@ -138,8 +138,6 @@ class ControladorLote():
             2: self.editar_lote,
             3: self.remover_lote,
             4: self.listar_doses_disponiveis,
-            5: self.adicionar_dose,
-            6: self.subtrair_dose,
             0: self.retorna_tela_principal
         }
 
