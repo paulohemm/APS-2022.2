@@ -28,7 +28,7 @@ class ControladorAgendamentos():
             if dados_agendamento["dose"] == 1:
                 codigo = str(dados_agendamento["dose"]) + str(paciente.cpf)
                 if self.__dao.get(codigo):
-                    self.__tela_agendamentos.ja_cadastrado_segunda_dose()
+                    self.__tela_agendamentos.ja_castrado_primeira_dose()
                     break
             if dados_agendamento["dose"] == 2:
                 codigo = str(dados_agendamento["dose"])+str(paciente.cpf)
@@ -52,6 +52,8 @@ class ControladorAgendamentos():
                         self.__tela_agendamentos.enfermeiro_ja_possui_um_agendamento()
                         return None
             lote = self.__controlador_lote.get_lote()
+            if lote is None:
+                return None
             if dados_agendamento["data"] > lote.data_vencimento:
                 self.__tela_agendamentos.lote_fora_de_validade()
                 break
