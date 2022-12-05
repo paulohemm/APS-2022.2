@@ -18,14 +18,14 @@ class ControladorAgendamentos():
 
     def cadastrar_agendamento(self):
         dados_agendamento = self.__tela_agendamentos.pegar_dados_cadastrar()
+        if dados_agendamento is None:
+            return None
         if dados_agendamento["data"] < datetime.date(datetime.now()):
             self.__tela_agendamentos.agendamento_com_data_anterior()
             return None
         # if [(dados_agendamento["data"] == datetime.date(datetime.now())) and (dados_agendamento["horario"]) < datetime.time(datetime.now())]:
         #     self.__tela_agendamentos.agendamento_com_data_anterior()
         #     return None
-        if dados_agendamento is None:
-            return None
         while True:
             paciente = self.__controlador_pacientes.get_paciente()
             if paciente is None:
@@ -173,13 +173,16 @@ class ControladorAgendamentos():
                 return None
             agendamento_por_data = []
             data_selecionada = self.__tela_agendamentos.capturar_data_relatorio()
-            for agendamento in agendamentos_abertos:
-                if agendamento.data == data_selecionada["data"]:
-                    agendamento_por_data.append(agendamento)
-            if agendamento_por_data != []:
-                self.__tela_agendamentos.mostrar_lista_agendamentos(agendamento_por_data)
-            else:
-                self.__tela_agendamentos.sem_agendamento_para_a_data_seleciona()
+            try:
+                for agendamento in agendamentos_abertos:
+                    if agendamento.data == data_selecionada["data"]:
+                        agendamento_por_data.append(agendamento)
+                if agendamento_por_data != []:
+                    self.__tela_agendamentos.mostrar_lista_agendamentos(agendamento_por_data)
+                else:
+                    self.__tela_agendamentos.sem_agendamento_para_a_data_seleciona()
+                    return None
+            except:
                 return None
 
     def retorna_tela_principal(self):
