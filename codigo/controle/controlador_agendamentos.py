@@ -21,9 +21,9 @@ class ControladorAgendamentos():
         if dados_agendamento["data"] < datetime.date(datetime.now()):
             self.__tela_agendamentos.agendamento_com_data_anterior()
             return None
-        if [(dados_agendamento["data"] == datetime.date(datetime.now())) and (dados_agendamento["horario"]) < datetime.time(datetime.now())]:
-            self.__tela_agendamentos.agendamento_com_data_anterior()
-            return None
+        # if [(dados_agendamento["data"] == datetime.date(datetime.now())) and (dados_agendamento["horario"]) < datetime.time(datetime.now())]:
+        #     self.__tela_agendamentos.agendamento_com_data_anterior()
+        #     return None
         if dados_agendamento is None:
             return None
         while True:

@@ -216,4 +216,4 @@ class TelaAgendamentos():
 
     def agendamento_com_data_anterior(self):
         sg.theme('Default')
-        sg.popup('Não é possível realizar um agendamento em uma data anterior ou horario anterior a data atual.')
+        sg.popup('Não é possível realizar um agendamento em uma data anterior a data atual.')
