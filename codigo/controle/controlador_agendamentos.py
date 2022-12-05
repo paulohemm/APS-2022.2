@@ -128,18 +128,6 @@ class ControladorAgendamentos():
         agendamento.aplicada = True
         self.__dao.add(agendamento)
         self.__tela_agendamentos.vacina_aplicada()
-                
-
-    def remover_agendamento(self):
-        agendamento = self.get_agendamento()
-        if agendamento is None:
-            return None
-        else:
-            if not agendamento.aplicada:
-                agendamento.vacina.adiciona_quantidade(1)
-                self.__dao.remove(agendamento.codigo)
-                self.__tela_agendamentos.agendamento_removido()
-                self.__controlador_vacinas.salvar_vacina(agendamento.vacina)
 
     def listar_agendamentos_abertos(self):
         if len(self.__dao.get_all()) == 0:
