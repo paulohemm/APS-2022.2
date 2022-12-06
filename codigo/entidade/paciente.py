@@ -16,14 +16,14 @@ class Paciente(AbstractPessoa):
 		if isinstance(dose_vacina, int):
 			self.__dose_vacina = dose_vacina
 
-	@property
-	def fabricante_vacina(self) -> int:
-		return self.__fabricante_vacina
-
-	@fabricante_vacina.setter
-	def fabricante_vacina(self, fabricante_vacina):
-		if isinstance(fabricante_vacina, str):
-			self.__fabricante_vacina = fabricante_vacina
+	# @property
+	# def fabricante_vacina(self) -> int:
+	# 	return self.__fabricante_vacina
+	#
+	# @fabricante_vacina.setter
+	# def fabricante_vacina(self, fabricante_vacina):
+	# 	if isinstance(fabricante_vacina, str):
+	# 		self.__fabricante_vacina = fabricante_vacina
 
 	@property
 	def lote_vacina(self) -> str:

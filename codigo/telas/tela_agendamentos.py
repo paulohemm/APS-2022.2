@@ -20,6 +20,7 @@ class TelaAgendamentos():
             [sg.Button('Listar aplicações agendadas', size=(30, 2), key='2')],
             [sg.Button('Aplicar Vacina', size=(30, 2), key='3')],
             [sg.Button('Listar aplicações realizadas', size=(30, 2), key='4')],
+            [sg.Button('Relatório agendamento por data', size=(30, 2), key='5')],
             [sg.Button('Retornar', size=(30, 2), key='0')]
         ]
         window = sg.Window('Agendamentos',size=(800, 480), element_justification="center").Layout(layout).Finalize()
@@ -158,6 +159,36 @@ class TelaAgendamentos():
                 break
         window.close()
 
+    def capturar_data_relatorio(self):
+        sg.theme('Default')
+        layout = [
+            [sg.Text('Selecione a data do Agendamento')],
+            [sg.Text('Data:')],
+            [sg.Text('Dia:', size=(15,1)), sg.InputCombo(self.lista_dia, size=(15,1))],
+            [sg.Text('Mês:', size=(15,1)), sg.InputCombo(self.lista_mes, size=(15,1))],
+            [sg.Text('Ano:', size=(15,1)), sg.InputCombo(self.lista_ano, size=(15,1))],
+            [sg.Button('Ok'), sg.Button('Cancelar')]
+        ]
+        window = sg.Window('Agendamentos',size=(800, 480),element_justification="center").Layout(layout).Finalize()
+        window.Maximize()
+        while True:
+            try:
+                event, values = window.read()
+                if event == sg.WIN_CLOSED or event == 'Cancelar':
+                    window.close()
+                    return None
+                if values[0] not in self.lista_dia or values[1] not in self.lista_mes or values[2] not in self.lista_ano:
+                    sg.popup('Data inválida.','Verifique a data desejada e tente novamente.')
+                    window.close()
+                    return None
+                data_str = values[0]+'/'+values[1]+'/'+values[2]
+                data = datetime.strptime(data_str, '%d/%m/%Y').date()
+                break
+            except ValueError:
+                sg.popup('Data inválida.','Verifique a data desejada e tente novamente.')
+        window.close()
+        return {'data': data}
+
     def agendamento_cadastrado(self):
         sg.theme('Default')
         sg.popup("Agendamento cadastrado com sucesso!")
@@ -208,8 +239,16 @@ class TelaAgendamentos():
 
     def lote_fora_de_validade(self):
         sg.theme('Default')
-        sg.popup('Não é possivel registar o agendamento, a vacina esta fora do prazo de validade')
+        sg.popup('Não é possivel registar o agendamento, a vacina esta fora do prazo de validade.')
     
     def doses_insuficientes(self):
         sg.theme('Default')
         sg.popup('Não é possivel registar o agendamento, não há doses disponíveis')
+
+    def agendamento_com_data_anterior(self):
+        sg.theme('Default')
+        sg.popup('Não é possível realizar um agendamento em uma data anterior a data atual.')
+
+    def sem_agendamento_para_a_data_seleciona(self):
+        sg.theme('Default')
+        sg.popup('Não existe agendamentos para a data selecionada, por favor tente novamente!')
