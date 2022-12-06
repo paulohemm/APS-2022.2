@@ -19,6 +19,9 @@ class ControladorPacientes():
     def pacientes(self):
         return self.__dao.get_all()
 
+    def teste_pacientes(self, paciente):
+        self.__dao.add(paciente)
+
     def cadastrar_paciente(self):
         while True:
             dados_paciente = self.__tela_pacientes.pegar_dados_cadastrar()
@@ -130,7 +133,7 @@ class ControladorPacientes():
 
     def listar_pacientes(self):
         matriz = []
-        linha = ['        Nome        ', '    CPF    ', '   Telefone    ','Idade']
+        linha = ['        Nome        ', '    CPF    ', '   Telefone    ','Idade', 'dose']###
         matriz.append(linha)
         if len(self.__dao.get_all()) == 0:
             self.__tela_pacientes.nenhum_paciente()
@@ -141,6 +144,7 @@ class ControladorPacientes():
             idade_dias = datetime.today().date() - paciente.data_nascimento
             idade = int(idade_dias.days // 365.24231481481481481481481481481481)
             linha.append(idade)
+            linha.append(paciente.dose_vacina)###
             matriz.append(linha)
         self.__tela_pacientes.listar_paciente_tabela(matriz, 'Lista de pacientes')
 

@@ -2,12 +2,13 @@ from telas.tela_agendamentos import TelaAgendamentos
 from entidade.agendamento import Agendamento
 from datetime import datetime
 from persistencia.agendamentoDAO import AgendamentoDAO
-
+from persistencia.pacienteDAO import PacienteDAO
 
 class ControladorAgendamentos():
 
     def __init__(self, controlador_sistema):
         self.__dao = AgendamentoDAO()
+        self.__paciente_dao = PacienteDAO()
         self.__tela_agendamentos = TelaAgendamentos(self)
         self.__controlador_sistema = controlador_sistema
         self.__controlador_enfermeiros = self.__controlador_sistema.controlador_enfermeiros
@@ -73,6 +74,10 @@ class ControladorAgendamentos():
     @property
     def agendamentos(self):
         return self.__dao.get_all()
+    
+    @property
+    def paciente_dao(self):
+        return self.__paciente_dao.get_all()
 
     def get_agendamento(self):
         if len(self.__dao.get_all()) == 0:
@@ -164,6 +169,11 @@ class ControladorAgendamentos():
         if agendamento is None:
             return None
         agendamento.aplicada = True
+        lista_pacientes = self.__paciente_dao.get_all()
+        for paciente in lista_pacientes:
+            if paciente.cpf == agendamento.paciente.cpf:
+                paciente.dose_vacina = agendamento.dose
+        self.__controlador_pacientes.teste_pacientes(paciente)
         self.__dao.add(agendamento)
         self.__tela_agendamentos.vacina_aplicada()
                 

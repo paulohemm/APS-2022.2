@@ -80,7 +80,7 @@ class TelaPacientes():
         return None
 
     def listar_paciente_tabela(self, dados_paciente, titulo):
-        titulos = [dados_paciente[0][0], dados_paciente[0][1], dados_paciente[0][2], dados_paciente[0][3]]
+        titulos = [dados_paciente[0][0], dados_paciente[0][1], dados_paciente[0][2], dados_paciente[0][3], dados_paciente[0][4]]
         print(titulos)
         sg.theme('DefaultNoMoreNagging')
         layout = [[sg.Table(values=dados_paciente[1:][:], headings=titulos, max_col_width=50,
