@@ -15,7 +15,8 @@ class TelaPacientes():
             [sg.Button('Editar paciente', size=(30, 2), key='2')],
             [sg.Button('Listar pacientes cadastrados', size=(30, 2), key='3')],
             [sg.Button('Remover paciente', size=(30, 2), key='4')],
-            [sg.Button('Retornar', size=(30, 2), key='5')]
+            [sg.Button('Relatorio pacientes', size=(30, 2), key='5')],
+            [sg.Button('Retornar', size=(30, 2), key='6')]
             ]
         window = sg.Window('Pacientes',size=(800, 480), element_justification="center").Layout(layout).Finalize()
         window.Maximize()
@@ -80,6 +81,32 @@ class TelaPacientes():
         return None
 
     def listar_paciente_tabela(self, dados_paciente, titulo):
+        titulos = [dados_paciente[0][0], dados_paciente[0][1], dados_paciente[0][2], dados_paciente[0][3]]
+        print(titulos)
+        sg.theme('DefaultNoMoreNagging')
+        layout = [[sg.Table(values=dados_paciente[1:][:], headings=titulos, max_col_width=50,
+                             def_col_width=200,
+                             auto_size_columns=True,
+                             display_row_numbers=True,
+                             justification='left',
+                             alternating_row_color='lightgrey',
+                             key='dado',
+                             row_height=35,
+                             tooltip='This is a table')],
+                            [sg.Button('ok')]
+                            ]
+        window = sg.Window(titulo, layout, size=(800, 480), element_justification="center").Finalize()
+        window.Maximize()
+        while True:
+            event, values = window.read()
+            if event == sg.WIN_CLOSED:
+                break
+            elif event == 'ok':
+                break
+        window.close()
+        return None
+
+    def relatorio_paciente_tabela(self, dados_paciente, titulo):
         titulos = [dados_paciente[0][0], dados_paciente[0][1], dados_paciente[0][2], dados_paciente[0][3], dados_paciente[0][4]]
         print(titulos)
         sg.theme('DefaultNoMoreNagging')
