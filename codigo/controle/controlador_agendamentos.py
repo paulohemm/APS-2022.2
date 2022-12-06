@@ -18,14 +18,14 @@ class ControladorAgendamentos():
 
     def cadastrar_agendamento(self):
         dados_agendamento = self.__tela_agendamentos.pegar_dados_cadastrar()
+        if dados_agendamento is None:
+            return None
         if dados_agendamento["data"] < datetime.date(datetime.now()):
             self.__tela_agendamentos.agendamento_com_data_anterior()
             return None
         # if [(dados_agendamento["data"] == datetime.date(datetime.now())) and (dados_agendamento["horario"]) < datetime.time(datetime.now())]:
         #     self.__tela_agendamentos.agendamento_com_data_anterior()
         #     return None
-        if dados_agendamento is None:
-            return None
         while True:
             paciente = self.__controlador_pacientes.get_paciente()
             if paciente is None:
@@ -159,6 +159,32 @@ class ControladorAgendamentos():
             else:
                 self.__tela_agendamentos.mostrar_lista_agendamentos(aplicacoes_efetivadas)
 
+    def relatorio_agendamentos_por_data(self):
+        if len(self.__dao.get_all()) == 0:
+            self.__tela_agendamentos.agendamento_aberto_nao_cadastrado()
+            return None
+        else:
+            agendamentos_abertos = []
+            for agendamento in self.__dao.get_all():
+                if agendamento.aplicada == False:
+                    agendamentos_abertos.append(agendamento)
+            if len(agendamentos_abertos) == 0:
+                self.__tela_agendamentos.agendamento_aberto_nao_cadastrado()
+                return None
+            agendamento_por_data = []
+            data_selecionada = self.__tela_agendamentos.capturar_data_relatorio()
+            try:
+                for agendamento in agendamentos_abertos:
+                    if agendamento.data == data_selecionada["data"]:
+                        agendamento_por_data.append(agendamento)
+                if agendamento_por_data != []:
+                    self.__tela_agendamentos.mostrar_lista_agendamentos(agendamento_por_data)
+                else:
+                    self.__tela_agendamentos.sem_agendamento_para_a_data_seleciona()
+                    return None
+            except:
+                return None
+
     def retorna_tela_principal(self):
         self.__mantem_tela_aberta = False
 
@@ -169,6 +195,7 @@ class ControladorAgendamentos():
             2: self.listar_agendamentos_abertos,
             3: self.aplicar_vacina,
             4: self.listar_aplicacoes_efetivadas,
+            5: self.relatorio_agendamentos_por_data,
             0: self.retorna_tela_principal
         }
 
