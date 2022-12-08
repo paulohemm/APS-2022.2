@@ -88,9 +88,8 @@ class TelaVacinas():
     def pegar_fabricante(self):
         sg.theme('Default')
         layout = [
-            [sg.Text('Selecionar Fabricante:*')],
-            [sg.Text('Numero de doses:',size=(15, 1)), sg.InputText()],
-            [sg.Text('Tempo entre doses:', size=(15, 1)), sg.InputText('dias')],
+            [sg.Text('Numero de doses:',size=(30, 1)), sg.InputText()],
+            [sg.Text('Tempo entre doses (em dias):', size=(30, 1)), sg.InputText()],
             [sg.Button('Ok'), sg.Button('Cancelar')]
         ]
         window = sg.Window('Vacinas',size=(800, 480),element_justification="center").Layout(layout).Finalize()
